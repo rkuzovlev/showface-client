@@ -1,0 +1,27 @@
+<nav class="nav has-shadow">
+	<div class="container">
+		<div class="nav-left">
+			<a routerLink="/" class="nav-item">
+				<img src="/img/logo.png" alt="Bulma logo">
+			</a>
+			<a routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/" class="nav-item is-tab is-hidden-mobile">Browse</a>
+			<a routerLinkActive="is-active" routerLink="/about" class="nav-item is-tab is-hidden-mobile">About</a>
+		</div>
+		<span class="nav-toggle">
+			<span></span>
+			<span></span>
+			<span></span>
+		</span>
+		<div class="nav-right nav-menu !is-active">
+			<a routerLinkActive="is-active" routerLink="/" class="nav-item is-tab is-hidden-tablet">Browse</a>
+			<a routerLinkActive="is-active" routerLink="/about" class="nav-item is-tab is-hidden-tablet">About</a>
+			<a routerLinkActive="is-active" routerLink="/profile" class="nav-item is-tab">
+				<span class="icon is-small">
+					<i class="fa fa-user"></i>
+				</span>
+				<span style="margin-left: 5px;">Profile</span>
+			</a>
+			<a (click)="showLoginModal(); $event.stopPropagation();" class="nav-item is-tab">login</a>
+		</div>
+	</div>
+</nav>

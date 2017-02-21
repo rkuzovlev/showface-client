@@ -1,0 +1,14 @@
+// $turquoise:		hsl(171, 100%, 41%) !default;
+$turquoise:		#2196F3 !default;
+
+$tablet: 600px !default
+// $desktop: 1000px !default // 960px container + 40px
+// $widescreen: 1192px !default // 1152px container + 40
+
+
+@import "node_modules/bulma/bulma";
+
+.change-avatar {
+	border-top-right-radius: 0;
+		border-top-left-radius: 0;
+}

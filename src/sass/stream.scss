@@ -1,0 +1,118 @@
+.stream {
+	&.title {
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
+		padding-right: 20px;
+	}
+
+	&.chat {
+		height: 100%;
+	    width: calc(100% - 20px);
+        left: 10px;
+		max-height: 521px;
+	    min-height: 340px;
+		overflow-x: hidden;
+		overflow-y: scroll;
+		position: absolute;
+
+		@include mobile(){
+			position: relative;
+			width: 100%;
+		}
+
+		.messages {
+			.msg {
+				margin: 10px 0;
+			    word-wrap: break-word;
+
+				.u {
+					font-weight: bold;
+				}
+			}
+		}
+
+	}
+
+	&.write {
+		textarea {
+			height: 111px;
+			width: 100%;
+			padding: 19px 10px 10px 10px;
+			border: none;
+		    border-top: 1px solid #dbdbdb;
+	        font-size: 1rem;
+	        outline: none;
+		}
+	}
+
+	&.chat-conteiner {
+		position: relative;
+		flex-grow: 10;
+	}
+
+	&.controls {
+		margin-bottom: 20px;
+
+		.btn {
+			cursor: pointer;
+
+			span {
+				transition: color 0.3s ease-out;
+			}
+
+			&:hover {
+				span {
+					color: #7a7a7a;
+				}
+			}
+
+			&.is-active {
+				span {
+					color: rgb(228, 47, 47);
+				}
+
+				&:hover {
+					span {
+						color: rgb(255, 0, 0);
+					}
+				}
+			}
+		}
+	}
+}
+
+.streamers-group {
+	margin-bottom: 40px;
+}
+
+.webrtc {
+	&.video-container {
+		width: 100%;
+		padding-top: 56.25%;
+		position: relative;
+
+		video {
+			background-color: #aaa;
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			min-width: 100%; 
+			min-height: 100%;
+			width: auto; 
+			height: auto; 
+		}
+	}
+}
+
+.comments {
+
+}
+
+.comments-container {
+	padding-right: 0;
+	padding-left: 0;
+	padding-top: 0;
+}
