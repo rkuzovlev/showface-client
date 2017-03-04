@@ -3,7 +3,7 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/Subject';
-import { Stream } from "../../_models/Stream";
+import { Stream } from "../../_models/stream";
 
 import "rxjs/add/operator/toPromise";
 import 'rxjs/add/operator/map'
@@ -15,7 +15,7 @@ export class StreamService {
 
     constructor(private http: Http) { }
 
-    getStream(id: number): Promise<Stream> {
-        return this.http.get('/api/streams/' + id).map((response: Response) => response.json() as Stream).toPromise();
+    getStream(id: number): Observable<Stream> {
+        return this.http.get('/api/streams/' + id).map((response: Response) => response.json() as Stream);
     }
 }

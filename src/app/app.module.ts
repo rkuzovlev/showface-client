@@ -3,6 +3,12 @@ import { NgModule } 		from '@angular/core';
 import { FormsModule } 		from '@angular/forms';
 import { HttpModule } 		from '@angular/http';
 
+import { StoreModule } from '@ngrx/store'
+import { EffectsModule } from '@ngrx/effects'
+import { RouterStoreModule } from '@ngrx/router-store'
+
+import { reducer } from './_reducers'
+
 import { AppRoutingModule } 	from './_modules/app-routing.module';
 import { ProfileModule } 		from './profile/profile.module';
 import { StreamModule } 		from './stream/stream.module';
@@ -30,6 +36,8 @@ import { ModalComponent }		from './_components/modal/modal.component';
 		LoginComponent,
 	],
 	imports: [
+		StoreModule.provideStore(reducer),
+		RouterStoreModule.connectRouter(),
 		IndexModule,
 		LoginModule,
 		AboutModule,

@@ -5,7 +5,7 @@ import { FormsModule }	 from '@angular/forms';
 import { PageStreamComponent } from './components/stream/stream.component';
 
 import { RoutingModule } from './routing.module';
-import { StreamResolver } from './services/stream-resolver.service'
+import { StreamExistsGuard } from './services/stream-guard.service';
 import { StreamService } from './services/stream.service'
 
 
@@ -19,8 +19,8 @@ import { StreamService } from './services/stream.service'
 		PageStreamComponent
 	],
 	providers: [
-		StreamResolver,
 		StreamService,
+		StreamExistsGuard,
 	]
 })
 export class StreamModule {}

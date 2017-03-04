@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ModalWindowService } from "../../_services/modal-window.service";
 
-import { Modal, ModalType } from "../../_models/Modal";
+import { Modal, ModalType } from "../../_models/modal";
 
 @Component({
 	selector: 'app-nav',

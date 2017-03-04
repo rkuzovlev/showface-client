@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { Stream } from '../_models/Stream';
+import { Stream } from '../_models/stream';
 import * as streams from '../_actions/streams';
 
 export interface StreamEntities {
@@ -29,35 +29,24 @@ export function reducer(state = initialState, action: streams.Actions): State {
 				});
 			}, {});
 
-			return {
+			const storeDif = {
 				ids: [ ...state.ids, ...newStreamIds ],
 				entities: Object.assign({}, state.entities, newStreamEntities)
 			};
+
+			return Object.assign({}, storeDif)
 		}
 
-		// case book.ActionTypes.LOAD: {
-		//	 const book = action.payload;
+		case streams.ActionTypes.ADD_STREAM: {
+			const stream = action.payload as Stream;
+			
+			const storeDif = {
+				ids: [ ...state.ids, stream.id ],
+				entities: Object.assign({}, state.entities, { [stream.id]: stream })
+			};
 
-		//	 if (state.ids.indexOf(book.id) > -1) {
-		//		 return state;
-		//	 }
-
-		//	 return {
-		//		 ids: [ ...state.ids, book.id ],
-		//		 entities: Object.assign({}, state.entities, {
-		//			 [book.id]: book
-		//		 }),
-		//		 selectedBookId: state.selectedBookId
-		//	 };
-		// }
-
-		// case book.ActionTypes.SELECT: {
-		//	 return {
-		//		 ids: state.ids,
-		//		 entities: state.entities,
-		//		 selectedBookId: action.payload
-		//	 };
-		// }
+			return Object.assign({}, storeDif)
+		}
 
 		default: {
 			return state;
@@ -67,9 +56,12 @@ export function reducer(state = initialState, action: streams.Actions): State {
 
 
 export const getEntities = (state: State) => state.entities;
-
 export const getIds = (state: State) => state.ids;
 
 export const getAll = createSelector(getEntities, getIds, (entities, ids) => {
 	return ids.map(id => entities[id]);
 });
+
+export const getNonClosedEntites = createSelector(getAll, (entities) => {
+	return entities.filter(entity => !entity.closed);
+})

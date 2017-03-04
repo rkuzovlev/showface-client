@@ -38,8 +38,11 @@ export function reducer(state: any, action: any) {
 export const getStreamsState = (state: State) => state.streams;
 export const getStreamsEntities = createSelector(getStreamsState, fromStreams.getEntities);
 export const getStreamsIds = createSelector(getStreamsState, fromStreams.getIds);
+export const getStreamsNonClosedEntities = createSelector(getStreamsState, fromStreams.getNonClosedEntites);
 
-// export const getBookEntities = createSelector(getBooksState, fromBooks.getEntities);
-// export const getBookIds = createSelector(getBooksState, fromBooks.getIds);
-// export const getSelectedBookId = createSelector(getBooksState, fromBooks.getSelectedId);
-// export const getSelectedBook = createSelector(getBooksState, fromBooks.getSelected);
+
+export const getStreamState = (state: State) => state.stream;
+export const getStreamId = createSelector(getStreamState, fromStream.getId);
+export const getStreamEntity = createSelector(getStreamsEntities, getStreamId, (entities, id) => {
+	return entities[id]
+});

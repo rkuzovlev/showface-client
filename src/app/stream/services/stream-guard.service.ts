@@ -16,45 +16,28 @@ import * as reducers from '../../_reducers';
 import * as streams from '../../_actions/streams';
 
 
-/**
- * Guards are hooks into the route resolution process, providing an opportunity
- * to inform the router's navigation process whether the route should continue
- * to activate this route. Guards must return an observable of true or false.
- */
 @Injectable()
-export class BookExistsGuard implements CanActivate {
+export class StreamExistsGuard implements CanActivate {
 	constructor(
 		private store: Store<reducers.State>,
 		private streamService: StreamService,
 		private router: Router
 	) { }
 
-	// waitForCollectionToLoad(): Observable<boolean> {
-	// 	return this.store.select(reducers.getCollectionLoaded)
-	// 		.filter(loaded => loaded)
-	// 		.take(1);
-	// }
-
-	// hasBookInStore(id: number): Observable<boolean> {
-	// 	return this.store.select(reducers.getBookEntities)
-	// 		.map(entities => !!entities[id])
-	// 		.take(1);
-	// }
-
-	// hasBookInApi(id: number): Observable<boolean> {
-	// 	return this.googleBooks.retrieveBook(id)
-	// 		.map(bookEntity => new book.LoadAction(bookEntity))
-	// 		.do((action: book.LoadAction) => this.store.dispatch(action))
-	// 		.map(book => !!book)
-	// 		.catch(() => {
-	// 			this.router.navigate(['/404']);
-	// 			return of(false);
-	// 		});
-	// }
+	hasStreamInApi(id: number): Observable<boolean> {
+		return this.streamService
+			.getStream(id)
+			.map((streamEntity) => new streams.AddStreamAction(streamEntity))
+			.do((action) => this.store.dispatch(action))
+			.map((action) => !!action)
+			.catch(() => {
+				return of(false);
+			});
+	}
 
 	hasStreamInStore(id: number): Observable<boolean> {
-		return this.store.select(reducers.getStreamsEntities)
-			.map((entities) => { !!entities[id] })
+		return this.store.select(reducers.getStreamsNonClosedEntities)
+			.map((entities) => !!entities[id] )
 			.take(1);
 	}
 
@@ -65,7 +48,7 @@ export class BookExistsGuard implements CanActivate {
 					return of(inStore);
 				}
 
-				return this.hasBookInApi(id);
+				return this.hasStreamInApi(id);
 			});
 	}
 

@@ -3,15 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { PageStreamComponent } from './components/stream/stream.component';
 
-import { StreamResolver } from './services/stream-resolver.service';
+import { StreamExistsGuard } from './services/stream-guard.service';
 
 const routes: Routes = [
 	{ 
 		path: 'stream/:id', 
 		component: PageStreamComponent,
-		resolve: {
-			stream: StreamResolver
-		}
+		canActivate: [ StreamExistsGuard ]
 	}
 ];
 
