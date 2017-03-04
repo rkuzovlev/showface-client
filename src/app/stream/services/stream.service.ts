@@ -3,7 +3,7 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/Subject';
-import { Stream } from "../../common/models/Stream";
+import { Stream } from "../../_models/Stream";
 
 import "rxjs/add/operator/toPromise";
 import 'rxjs/add/operator/map'

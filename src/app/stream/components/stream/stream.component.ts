@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Stream } from '../../../common/models/Stream';
+import { Stream } from '../../../_models/Stream';
 
 
 @Component({

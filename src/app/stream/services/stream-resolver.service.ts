@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, Resolve, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 
-import { Stream } from "../../common/models/Stream";
+import { Stream } from "../../_models/Stream";
 import { StreamService } from "./stream.service"
 
 @Injectable()
@@ -12,12 +12,12 @@ export class StreamResolver implements Resolve<Stream> {
 		let id = route.params['id'];
 
 		return this.streamService.getStream(id).then(stream => {
-			if (stream) {
-				return stream;
-			} else {
+			if (!stream) {
 				this.router.navigate(['/']);
 				return null;
 			}
+			
+			return stream;
 		});
 	}
 }

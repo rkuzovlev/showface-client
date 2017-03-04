@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ModalWindowService } from "../../services/modal-window.service";
+import { ModalWindowService } from "../../_services/modal-window.service";
 
-import { Modal, ModalType } from "../../models/Modal";
+import { Modal, ModalType } from "../../_models/Modal";
 
 @Component({
 	selector: 'app-nav',

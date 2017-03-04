@@ -2,7 +2,7 @@ import { Injectable }    from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/Subject';
-import { Modal, ModalType } from "../models/Modal";
+import { Modal, ModalType } from "../_models/Modal";
 
 
 @Injectable()

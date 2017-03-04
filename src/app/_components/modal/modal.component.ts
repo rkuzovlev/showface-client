@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ModalWindowService } from "../../services/modal-window.service";
+import { ModalWindowService } from "../../_services/modal-window.service";
 
-import { Modal } from "../../models/Modal";
+import { Modal } from "../../_models/Modal";
 
 
 // right now it's regular login modal window
