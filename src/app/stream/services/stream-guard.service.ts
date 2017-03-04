@@ -14,6 +14,8 @@ import { of } from 'rxjs/observable/of';
 import { StreamService } from './stream.service';
 import * as reducers from '../../_reducers';
 import * as streams from '../../_actions/streams';
+import { LoadStreamAction } from '../../_actions/stream'
+
 
 
 @Injectable()
@@ -49,10 +51,17 @@ export class StreamExistsGuard implements CanActivate {
 				}
 
 				return this.hasStreamInApi(id);
+			}).do((has) => {
+				if (has){
+					this.store.dispatch(new LoadStreamAction(id));
+				} else {
+					this.router.navigate(['/404'])
+				}
 			});
 	}
 
 	canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-		return this.hasStream(+route.params['id']);
+		const id = +route.params['id'];
+		return this.hasStream(id);
 	}
 }

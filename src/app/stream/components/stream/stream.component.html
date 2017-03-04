@@ -4,268 +4,43 @@
 		<div class="tile is-ancestor">
 			<div class="tile is-parent is-vertical is-8">
 				<div class="tile is-child">
-					<h1 class="title is-3 stream" title="{{ stream.title }}">{{ stream.title }}</h1>
+					<div class="title is-3">
+						<stream-title [title]="(stream | async).title"></stream-title>
+					</div>
+
 					<div class="webrtc video-container">
-						<video></video>
+						<webrtc-video></webrtc-video>
 					</div>
 				</div>
 				
 
 				<div class="tile is-child">
-				
-					<nav class="level is-mobile stream controls">
-						<div class="level-item has-text-centered">
-							<div class="btn is-active">
-								<p class="heading">online</p>
-								<span class="icon is-large">
-									<i class="fa fa-power-off"></i>
-								</span>
-							</div>
-						</div>
-						
-						<div class="level-item has-text-centered">
-							<div class="btn">
-								<p class="heading">muted</p>
-								<span class="icon is-large">
-									<i class="fa fa-microphone-slash !fa-microphone"></i>
-								</span>
-							</div>
-						</div>
-						
-						<div class="level-item has-text-centered">
-							<div class="btn">
-								<p class="heading">camera</p>
-								<span class="icon is-large">
-									<i class="fa fa-video-camera"></i>
-								</span>
-							</div>
-						</div>
-						
-						<div class="level-item has-text-centered">
-							<div class="btn">
-								<p class="heading">screen</p>
-								<span class="icon is-large">
-									<i class="fa fa-desktop"></i>
-								</span>
-							</div>
-						</div>
-					</nav>
-
+					<webrtc-buttons></webrtc-buttons>
 				</div>
 			</div>
 			
 			<div class="tile is-ancestor stream chat-conteiner">
-
 				<div class="tile is-parent is-vertical">
 					<div class="tile is-child stream chat-conteiner">
-						<div class="stream chat">
-							<div class="messages">
-								<p class="msg">
-									<span class="u">Ivanov Ivan</span>: 
-									<span class="t">Я думаю что печеньки надо печь по другому, истенно русскому рецепту, расскажу как-нибудь в своем блоке <a href="/stream/1212">https://showface.rkuzovlev.com/stream/121228768176287128152861527615276152</a> :)</span>
-								</p>
-								<p class="msg">
-									<span class="u">Звенислав Качарышкин</span>: 
-									<span class="t">Обязательно прийду</span>
-								</p>
-								<p class="msg">
-									<span class="u">Екатерина Ледянкина</span>: 
-									<span class="t">Сколько нужно сахара в вашем рецепте?</span>
-								</p>
-								<p class="msg">
-									<span class="u">Маргарита</span>: 
-									<span class="t">Еще не сказали</span>
-								</p>
-								<p class="msg">
-									<span class="u">Лена</span>: 
-									<span class="t">Где можно посмотреть прошлые выпуски?</span>
-								</p>
-								<p class="msg">
-									<span class="u">Федор</span>: 
-									<span class="t">На ютуб канале, посмотрите в описании есть ссылки</span>
-								</p>
-								<p class="msg">
-									<span class="u">Соколова</span>: 
-									<span class="t">Привет всем</span>
-								</p>
-								<p class="msg">
-									<span class="u">Соколова</span>: 
-									<span class="t">:)</span>
-								</p>
-								<p class="msg">
-									<span class="u">Ivanov Ivan</span>: 
-									<span class="t">Я думаю что печеньки надо печь по другому, истенно русскому рецепту, расскажу как-нибудь в своем блоке <a href="/stream/1212">https://showface.rkuzovlev.com/stream/121228768176287128152861527615276152</a> :)</span>
-								</p>
-								<p class="msg">
-									<span class="u">Звенислав Качарышкин</span>: 
-									<span class="t">Обязательно прийду</span>
-								</p>
-								<p class="msg">
-									<span class="u">Екатерина Ледянкина</span>: 
-									<span class="t">Сколько нужно сахара в вашем рецепте?</span>
-								</p>
-								<p class="msg">
-									<span class="u">Маргарита</span>: 
-									<span class="t">Еще не сказали</span>
-								</p>
-								<p class="msg">
-									<span class="u">Лена</span>: 
-									<span class="t">Где можно посмотреть прошлые выпуски?</span>
-								</p>
-								<p class="msg">
-									<span class="u">Федор</span>: 
-									<span class="t">На ютуб канале, посмотрите в описании есть ссылки</span>
-								</p>
-								<p class="msg">
-									<span class="u">Соколова</span>: 
-									<span class="t">Привет всем</span>
-								</p>
-								<p class="msg">
-									<span class="u">Соколова</span>: 
-									<span class="t">:)</span>
-								</p>
-							</div>
-						</div>
+						<stream-chat></stream-chat>
 					</div>
 
 					<div class="tile is-child stream write control">
-						<textarea class="!textarea" placeholder="Add a comment..."></textarea>
+						<stream-chat-new-message></stream-chat-new-message>
 					</div>
 				</div>
-
 			</div>
 		</div>
 
 
 		<div class="columns">
 			<div class="column comments is-8">
-				<h2 class="title is-4">Comments</h2>
-				
-				<section class="section comments-container">
-					<article class="media">
-						<figure class="media-left">
-							<p class="image is-64x64">
-								<img src="http://bulma.io/images/placeholders/128x128.png">
-							</p>
-						</figure>
-						<div class="media-content">
-							<div class="content">
-								<strong>Маргарита</strong> <small>31m</small><br>
-								Хороший стрим, и печеньки хорошие :)
-							</div>
-						</div>
-					</article>
-
-					<article class="media">
-						<figure class="media-left">
-							<p class="image is-64x64">
-								<img src="http://bulma.io/images/placeholders/128x128.png">
-							</p>
-						</figure>
-						<div class="media-content">
-							<div class="content">
-								<strong>Федор</strong> <small>21:15 PM - 2 Jan 2017</small><br>
-								Обязательно подпишусь
-							</div>
-						</div>
-					</article>
-
-					<article class="media">
-						<figure class="media-left">
-							<p class="image is-64x64">
-								<img src="http://bulma.io/images/placeholders/128x128.png">
-							</p>
-						</figure>
-						<div class="media-content">
-							<div class="content">
-								<strong>Екатерина Ледянкина</strong> <small>11:09 PM - 1 Jan 2017</small><br>
-								Посмотрела несколько эпизодов и очень заинтересовалась каналом, обязательно прийду еще.<br/>
-								Конечно же подпишусь чтобы не пропустить новые рецепты.<br/>
-								Кстати попробовала сделать те печеньки, получилось очень вкусно.<br/>
-								Большое cпасибо Вам Маргарита Петрович за то что вы делаете такие замечательные стримы<br/>
-							</div>
-						</div>
-					</article>
-
-					<article class="media">
-						<figure class="media-left">
-							<p class="image is-64x64">
-								<img src="http://bulma.io/images/placeholders/128x128.png">
-							</p>
-						</figure>
-						<div class="media-content">
-							<p class="control">
-								<textarea class="textarea" placeholder="Add a comment..."></textarea>
-							</p>
-							<nav class="level">
-								<div class="level-left">
-									<div class="level-item">
-										<a class="button is-info">Post comment</a>
-									</div>
-								</div>
-							</nav>
-						</div>
-					</article>
-				</section>
-
-
-				<nav class="pagination is-centered">
-					<a class="pagination-previous">Previous</a>
-					<a class="pagination-next">Next page</a>
-					<ul class="pagination-list">
-						<li><a class="pagination-link">1</a></li>
-						<li><span class="pagination-ellipsis">&hellip;</span></li>
-						<li><a class="pagination-link">45</a></li>
-						<li><a class="pagination-link is-current">46</a></li>
-						<li><a class="pagination-link">47</a></li>
-						<li><span class="pagination-ellipsis">&hellip;</span></li>
-						<li><a class="pagination-link">86</a></li>
-					</ul>
-				</nav>
+				<stream-comments></stream-comments>
 			</div>
 
 			<div class="column">
-				<section class="streamers-group">
-					<h2 class="title is-4">Streamers</h2>
-					<div class="media">
-						<div class="media-left">
-							<figure class="image" style="height: 45px; width: 45px;">
-								<img src="http://bulma.io/images/placeholders/96x96.png" alt="Image">
-							</figure>
-						</div>
-						<div class="media-content">
-							<p class="title is-4"><a href="/profile/123">Маргарита Петрович Хнычь</a></p>
-							<p class="subtitle is-6">Кулинар по жизни</p>
-						</div>
-					</div>
-
-					<div class="media">
-						<div class="media-left">
-							<figure class="image" style="height: 45px; width: 45px;">
-								<img src="http://bulma.io/images/placeholders/96x96.png" alt="Image">
-							</figure>
-						</div>
-						<div class="media-content">
-							<p class="title is-4"><a href="/profile/123">Геннадий Петрович Хнычь</a></p>
-							<p class="subtitle is-6">Муж кулинара</p>
-						</div>
-					</div>
-				</section>
-
-				<section class="streamers-group">
-					<h2 class="title is-4">Moderators</h2>
-					<div class="media">
-						<div class="media-left">
-							<figure class="image" style="height: 45px; width: 45px;">
-								<img src="http://bulma.io/images/placeholders/96x96.png" alt="Image">
-							</figure>
-						</div>
-						<div class="media-content">
-							<p class="title is-4"><a href="/profile/123">Око Саурона</a></p>
-							<p class="subtitle is-6"></p>
-						</div>
-					</div>
-				</section>
+				<stream-streamers></stream-streamers>
+				<stream-moderators></stream-moderators>
 			</div>
 		</div>
 

@@ -39,11 +39,15 @@ export function reducer(state = initialState, action: streams.Actions): State {
 
 		case streams.ActionTypes.ADD_STREAM: {
 			const stream = action.payload as Stream;
-			
-			const storeDif = {
-				ids: [ ...state.ids, stream.id ],
+
+			var storeDif = {
+				ids: [ ...state.ids ],
 				entities: Object.assign({}, state.entities, { [stream.id]: stream })
 			};
+
+			if (state.ids.indexOf(stream.id) == -1){
+				storeDif.ids.push(stream.id);
+			}
 
 			return Object.assign({}, storeDif)
 		}
