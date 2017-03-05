@@ -4,16 +4,13 @@
 		<div class="tile is-ancestor">
 			<div class="tile is-parent is-vertical is-8">
 				<div class="tile is-child">
-					<div class="title is-3">
-						<stream-title [title]="(stream | async).title"></stream-title>
-					</div>
+					<stream-title class="block title is-3" [title]="(stream | async).title"></stream-title>
 
 					<div class="webrtc video-container">
 						<webrtc-video></webrtc-video>
 					</div>
 				</div>
 				
-
 				<div class="tile is-child">
 					<webrtc-buttons></webrtc-buttons>
 				</div>

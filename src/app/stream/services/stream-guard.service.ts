@@ -38,8 +38,8 @@ export class StreamExistsGuard implements CanActivate {
 	}
 
 	hasStreamInStore(id: number): Observable<boolean> {
-		return this.store.select(reducers.getStreamsNonClosedEntities)
-			.map((entities) => !!entities[id] )
+		return this.store.select(reducers.getStreamsEntities)
+			.map((entities) => !!entities[id] && !entities[id].closed)
 			.take(1);
 	}
 
@@ -51,17 +51,23 @@ export class StreamExistsGuard implements CanActivate {
 				}
 
 				return this.hasStreamInApi(id);
-			}).do((has) => {
-				if (has){
-					this.store.dispatch(new LoadStreamAction(id));
-				} else {
-					this.router.navigate(['/404'])
-				}
 			});
+	}
+
+	checkStream(id: number): Observable<boolean> {
+		return this.hasStream(id).do((streamIsFound) => { 
+
+			// if stream is found, we need to dispatch LoadStreamAction
+			if (streamIsFound){ 
+				this.store.dispatch(new LoadStreamAction(id));
+			} else {
+				this.router.navigate(['/404'])
+			}
+		});
 	}
 
 	canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
 		const id = +route.params['id'];
-		return this.hasStream(id);
+		return this.checkStream(id);
 	}
 }
