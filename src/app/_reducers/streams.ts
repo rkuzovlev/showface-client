@@ -20,10 +20,10 @@ export function reducer(state = initialState, action: streams.Actions): State {
 	switch (action.type) {
 		case streams.ActionTypes.LOAD_SUCCESS: {
 			const _streams = action.payload as Stream[];
-			const newStreams = _streams.filter(stream => !state.entities[stream.id]);
+			// const newStreams = _streams.filter(stream => !state.entities[stream.id]);
 
-			const newStreamIds = newStreams.map(stream => stream.id);
-			const newStreamEntities = newStreams.reduce((entities: StreamEntities, stream: Stream) => {
+			const newStreamIds = _streams.map(stream => stream.id);
+			const newStreamEntities = _streams.reduce((entities: StreamEntities, stream: Stream) => {
 				return Object.assign(entities, {
 					[stream.id]: stream
 				});
@@ -34,7 +34,7 @@ export function reducer(state = initialState, action: streams.Actions): State {
 				entities: Object.assign({}, state.entities, newStreamEntities)
 			};
 
-			return Object.assign({}, storeDif)
+			return Object.assign({}, state, storeDif)
 		}
 
 		case streams.ActionTypes.ADD_STREAM: {
@@ -49,7 +49,7 @@ export function reducer(state = initialState, action: streams.Actions): State {
 				storeDif.ids.push(stream.id);
 			}
 
-			return Object.assign({}, storeDif)
+			return Object.assign({}, state, storeDif)
 		}
 
 		default: {

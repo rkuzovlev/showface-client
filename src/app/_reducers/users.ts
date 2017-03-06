@@ -20,10 +20,10 @@ export function reducer(state = initialState, action: users.Actions): State {
 	switch (action.type) {
 		case users.ActionTypes.ADD_USERS: {
 			const _users = action.payload as User[];
-			const newUsers = _users.filter(user => !state.entities[user.id]);
+			// const newUsers = _users.filter(user => !state.entities[user.id]);
 
-			const newUserIds = newUsers.map(user => user.id);
-			const newUserEntities = newUsers.reduce((entities: UserEntities, user: User) => {
+			const newUserIds = _users.map(user => user.id);
+			const newUserEntities = _users.reduce((entities: UserEntities, user: User) => {
 				return Object.assign(entities, {
 					[user.id]: user
 				});
@@ -34,7 +34,7 @@ export function reducer(state = initialState, action: users.Actions): State {
 				entities: Object.assign({}, state.entities, newUserEntities)
 			};
 
-			return Object.assign({}, storeDif)
+			return Object.assign({}, state, storeDif)
 		}
 
 		case users.ActionTypes.ADD_USER: {
@@ -49,7 +49,7 @@ export function reducer(state = initialState, action: users.Actions): State {
 				storeDif.ids.push(user.id);
 			}
 
-			return Object.assign({}, storeDif)
+			return Object.assign({}, state, storeDif)
 		}
 
 		default: {

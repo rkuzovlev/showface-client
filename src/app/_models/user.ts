@@ -4,5 +4,6 @@ export class User {
 		public email: string,
 		public avatar: string,
 		public name: string,
+		public status: string,
 	){ }
 }
