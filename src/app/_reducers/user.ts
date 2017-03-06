@@ -40,15 +40,15 @@ export function reducer(state = initialState, action: user.Actions): State {
 		}
 
 		case user.ActionTypes.LOGIN_SUCCESS: {
-			const _user = action.payload as User;
+			const loginData = action.payload as user.LoginSuccess;
 
 			const login = {
 				state: LoginState.Logined,
 				error: null,
-				token: null
+				token: loginData.token
 			};
 
-			return Object.assign({}, state, { userId: _user.id, login: login });
+			return Object.assign({}, state, { userId: loginData.user.id, login: login });
 		}
 
 		case user.ActionTypes.LOGIN_ERROR: {

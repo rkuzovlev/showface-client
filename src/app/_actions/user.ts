@@ -13,6 +13,11 @@ export enum LoginType {
     Facebook = 1
 }
 
+export interface LoginSuccess { 
+	user: User, 
+	token: string 
+}
+
 export class LoginAction implements Action {
 	type = ActionTypes.LOGIN;
 	constructor(public payload: LoginType) { }
@@ -20,7 +25,7 @@ export class LoginAction implements Action {
 
 export class LoginSuccessAction implements Action {
 	type = ActionTypes.LOGIN_SUCCESS;
-	constructor(public payload: User) { }
+	constructor(public payload: LoginSuccess) { }
 }
 
 export class LoginErrorAction implements Action {
