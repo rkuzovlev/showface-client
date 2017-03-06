@@ -3,12 +3,14 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 
 import { Stream } from '../../../_models/stream'
 
+
 @Component({
-	selector: 'stream-title',
-	templateUrl: './title.component.html'
+	selector: 'stream-description',
+	templateUrl: './description.component.html'
 })
-export class TitleComponent {
+export class DescriptionComponent {
 	@Input() stream: Stream
+	@Input() canEdit: boolean
 
 	constructor() { }
 }

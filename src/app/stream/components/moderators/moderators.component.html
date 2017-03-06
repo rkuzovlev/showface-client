@@ -1,14 +1,19 @@
-<section class="streamers-group">
+<section *ngIf="canEdit || moderators.length" class="streamers-group">
 	<h2 class="title is-4">Moderators</h2>
-	<div class="media">
+	
+	<div *ngFor="let user of moderators" class="media">
 		<div class="media-left">
 			<figure class="image" style="height: 45px; width: 45px;">
-				<img src="http://bulma.io/images/placeholders/96x96.png" alt="Image">
+				<img src="{{ user.avatar }}" alt="{{ user.name }} avatar">
 			</figure>
 		</div>
 		<div class="media-content">
-			<p class="title is-4"><a href="/profile/123">Око Саурона</a></p>
-			<p class="subtitle is-6"></p>
+			<p class="title is-4"><a href="/profile/{{ user.id }}">{{ user.name }}</a></p>
+			<p class="subtitle is-6">Нет инфо</p>
 		</div>
+	</div>
+
+	<div *ngIf="canEdit" class="media">
+		<a class="button is-primary">Add moderator</a>
 	</div>
 </section>

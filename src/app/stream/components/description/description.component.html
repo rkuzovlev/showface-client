@@ -1,0 +1,10 @@
+<div class="content">
+	<h1 class="title is-4">{{ stream.title }}</h1>
+	<div>
+		{{ stream.description }}
+	</div>
+</div>
+
+<div *ngIf="canEdit" class="has-text-centered">
+	<a class="button is-primary">Edit stream</a>
+</div>

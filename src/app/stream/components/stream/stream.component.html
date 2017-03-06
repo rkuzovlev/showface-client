@@ -4,7 +4,7 @@
 		<div class="tile is-ancestor">
 			<div class="tile is-parent is-vertical is-8">
 				<div class="tile is-child">
-					<stream-title class="block title is-3" [title]="(stream | async).title"></stream-title>
+					<stream-title class="block title is-3" [stream]="stream$ | async"></stream-title>
 
 					<div class="webrtc video-container">
 						<webrtc-video></webrtc-video>
@@ -32,12 +32,18 @@
 
 		<div class="columns">
 			<div class="column comments is-8">
-				<stream-comments></stream-comments>
+				<stream-description [canEdit]="true" [stream]="stream$ | async"></stream-description>
 			</div>
 
+<!--
+			<div class="column comments is-8">
+				<stream-comments></stream-comments>
+			</div>
+-->
+
 			<div class="column">
-				<stream-streamers></stream-streamers>
-				<stream-moderators></stream-moderators>
+				<stream-streamers [canEdit]="true" [streamers]="streamers$ | async"></stream-streamers>
+				<stream-moderators [canEdit]="true" [moderators]="moderators$ | async"></stream-moderators>
 			</div>
 		</div>
 

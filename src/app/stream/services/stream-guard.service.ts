@@ -10,11 +10,16 @@ import { Store } from '@ngrx/store';
 import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 
 import { StreamService } from './stream.service';
 import * as reducers from '../../_reducers';
-import * as streams from '../../_actions/streams';
-import { LoadStreamAction } from '../../_actions/stream'
+import * as streamsActions from '../../_actions/streams';
+import * as usersActions from '../../_actions/users';
+import * as streamActions from '../../_actions/stream';
+
+import { Stream } from '../../_models/stream';
+import { User } from '../../_models/user';
 
 
 
@@ -26,48 +31,88 @@ export class StreamExistsGuard implements CanActivate {
 		private router: Router
 	) { }
 
-	hasStreamInApi(id: number): Observable<boolean> {
+	hasStreamInApi(id: number): Observable<Stream> {
 		return this.streamService
 			.getStream(id)
-			.map((streamEntity) => new streams.AddStreamAction(streamEntity))
-			.do((action) => this.store.dispatch(action))
-			.map((action) => !!action)
+			.do((streamEntity) => this.store.dispatch(new streamsActions.AddStreamAction(streamEntity)))
 			.catch(() => {
-				return of(false);
+				return of(null);
 			});
 	}
 
-	hasStreamInStore(id: number): Observable<boolean> {
+	hasStreamInStore(id: number): Observable<Stream> {
 		return this.store.select(reducers.getStreamsEntities)
-			.map((entities) => !!entities[id] && !entities[id].closed)
+			.map((entities) => {
+				if (entities[id] && !entities[id].closed){
+					return entities[id];
+				} else {
+					return null;
+				}
+			})
 			.take(1);
 	}
 
-	hasStream(id: number): Observable<boolean> {
-		return this.hasStreamInStore(id)
-			.switchMap(inStore => {
-				if (inStore) {
-					return of(inStore);
-				}
+	loadStream(id: number): Observable<Stream> {
+		// return this.hasStreamInStore(id)
+		// 	.switchMap(stream => {
+		// 		if (stream) {
+		// 			return of(stream);
+		// 		}
 
-				return this.hasStreamInApi(id);
+		// 	});
+
+		return this.hasStreamInApi(id);
+	}
+
+	loadModerators(id: number): Observable<User[]> {
+		return this.streamService
+			.getStreamModerators(id)
+			.do((userEntities) => this.store.dispatch(new usersActions.AddUsersAction(userEntities)))
+			.catch(() => {
+				return of(null);
+			});
+	}
+
+	loadStreamers(id: number): Observable<User[]> {
+		return this.streamService
+			.getStreamStreamers(id)
+			.do((userEntities) => this.store.dispatch(new usersActions.AddUsersAction(userEntities)))
+			.catch(() => {
+				return of(null);
 			});
 	}
 
 	checkStream(id: number): Observable<boolean> {
-		return this.hasStream(id).do((streamIsFound) => { 
+		return forkJoin(
+			this.loadStream(id),
+			this.loadStreamers(id),
+			this.loadModerators(id),
+			(stream: Stream, streamers: User[], moderators: User[]): boolean => {
+				if (!stream){
+					this.router.navigate(['/404'])
+					return false;
+				}
 
-			// if stream is found, we need to dispatch LoadStreamAction
-			if (streamIsFound){ 
-				this.store.dispatch(new LoadStreamAction(id));
-			} else {
-				this.router.navigate(['/404'])
+				this.store.dispatch(new streamActions.LoadStreamAction(stream));
+
+				if (streamers){
+					this.store.dispatch(new streamActions.LoadStreamersAction(streamers));
+				} else {
+					this.store.dispatch(new streamActions.LoadStreamersErrorAction());
+				}
+
+				if (moderators){
+					this.store.dispatch(new streamActions.LoadModeratorsAction(moderators));
+				} else {
+					this.store.dispatch(new streamActions.LoadModeratorsErrorAction());
+				}
+
+				return true;
 			}
-		});
+		)
 	}
 
 	canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-		const id = +route.params['id'];
-		return this.checkStream(id);
+		return this.checkStream(+route.params['id']);
 	}
 }

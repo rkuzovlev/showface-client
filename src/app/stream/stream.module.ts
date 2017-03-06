@@ -11,6 +11,7 @@ import { StreamersComponent } from './components/streamers/streamers.component';
 import { TitleComponent } from './components/title/title.component';
 import { WebrtcButtonsComponent } from './components/webrtc-buttons/webrtc-buttons.component';
 import { WebrtcVideoComponent } from './components/webrtc-video/webrtc-video.component';
+import { DescriptionComponent } from './components/description/description.component';
 
 import { RoutingModule } from './routing.module';
 import { StreamExistsGuard } from './services/stream-guard.service';
@@ -33,6 +34,7 @@ import { StreamService } from './services/stream.service'
 		WebrtcButtonsComponent,
 		WebrtcVideoComponent,
 		ChatNewMessageComponent,
+		DescriptionComponent,
 	],
 	providers: [
 		StreamService,

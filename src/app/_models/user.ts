@@ -1,5 +1,8 @@
 export class User {
-    id: number
-    email: string
-    avatar: string
+	constructor(
+		public id: number,
+		public email: string,
+		public avatar: string,
+		public name: string,
+	){ }
 }
