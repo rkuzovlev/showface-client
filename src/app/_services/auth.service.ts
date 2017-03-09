@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/Subject';
+import { Http, Headers } from '@angular/http';
 
 import * as reducers from '../_reducers';
 import { User } from "../_models/user";
-import { LoginType, NewTokenAction, LoginErrorAction } from "../_actions/user"
+import { LoginType, LoginErrorAction } from "../_actions/user"
 
 
 @Injectable()
@@ -15,7 +16,15 @@ export class AuthService {
 
 	constructor(
 		private store: Store<reducers.State>,
+		private http: Http,
 	) { }
+
+	getCurrentUser(token: string): Observable<User> {
+		const h = new Headers({'Authorization': 'Bearer ' + token});
+		
+		return this.http.get('/api/users/current', { headers: h })
+			.map(res => res.json() as User);
+	}
 
 	/**
 	 *	@return Observable<api_token: string>

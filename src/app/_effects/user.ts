@@ -13,6 +13,7 @@ import { empty } from 'rxjs/observable/empty';
 import { of } from 'rxjs/observable/of';
 
 import { ApiService } from '../_services/api.service';
+import { StorageService } from '../_services/storage.service';
 import { AuthService } from '../_services/auth.service';
 import * as userActions from '../_actions/user';
 import { User } from '../_models/user';
@@ -24,29 +25,32 @@ export class UserEffects {
 		private actions$: Actions, 
 		private http: Http,
 		private auth: AuthService,
+		private storage: StorageService,
 	) { }
 
 
-	// @Effect()
-	// token$: Observable<Action> = this.actions$
-	// 	.ofType(userActions.ActionTypes.NEW_TOKEN)
-	// 	.map((action: userActions.NewTokenAction) => action.payload)
-	// 	.switchMap(token => {
-	// 		if (token === '') {
-	// 			return of(new userActions.LoginErrorAction(new Error('Token is empty')));
-	// 		}
+	@Effect()
+	loadToken$: Observable<Action> = this.actions$
+		.ofType(userActions.ActionTypes.LOAD_TOKEN)
+		.switchMap(() => {
+			let token = this.storage.get('token');
 
-	// 		return this.api.get('/users/current')
-	// 			.map(res => res.json() as User)
-	// 			.map((user: User) => {
-	// 				let ls: userActions.LoginSuccess = { user: user, token: token };
-	// 				return ls;
-	// 			})
-	// 			.map((ls: userActions.LoginSuccess) => {
-	// 				return new userActions.LoginSuccessAction(ls);
-	// 			})
-	// 			.catch((error) => of(new userActions.LoginErrorAction(new Error(error))));
-	// 	});
+			if (token){
+				return this.auth.getCurrentUser(token).map((user: User) => {
+					const ls: userActions.LoginSuccess = {
+						token: token,
+						user: user
+					};
+					return new userActions.LoginSuccessAction(ls);
+				}).catch(err => {
+					this.storage.remove('token');
+					return empty();
+				});
+			}
+
+			return empty();
+		});
+
 
 
 	@Effect()
@@ -55,17 +59,18 @@ export class UserEffects {
 		.map((action: userActions.LoginAction) => action.payload)
 		.switchMap((loginType: userActions.LoginType) => this.auth.login(loginType))
 		.switchMap((token: string) => {
-			// TODO: shit happens here :( need to rewrite
-			const h = new Headers({'Authorization': 'Bearer ' + token});
-			return this.http.get('/api/users/current', { headers: h })
-				.map(res => res.json() as User)
-				.map((user: User) => {
-					const ls: userActions.LoginSuccess = {
-						token: token,
-						user: user
-					};
-					return new userActions.LoginSuccessAction(ls);
-				});
+			this.storage.set('token', token);
+
+			return this.auth.getCurrentUser(token).map((user: User) => {
+				const ls: userActions.LoginSuccess = {
+					token: token,
+					user: user
+				};
+				return new userActions.LoginSuccessAction(ls);
+			});
 		})
-		.catch((err: Error) => of(new userActions.LoginErrorAction(err)));
+		.catch((err: Error) => {
+			this.storage.remove('token');
+			return of(new userActions.LoginErrorAction(err))
+		});
 }

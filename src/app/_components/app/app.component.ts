@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import * as reducers from '../../_reducers';
+import * as userActions from '../../_actions/user';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ export class AppComponent {
 	constructor(
 		private store: Store<reducers.State>,
 	) { 
+		store.dispatch(new userActions.LoadTokenAction());
 		store.subscribe(function(state) {
 			console.log('state', state);
 		})

@@ -4,7 +4,7 @@ import { type } from '../utils';
 
 export const ActionTypes = {
 	LOGIN:			type('[User] Login'),
-	NEW_TOKEN:		type('[User] New token'),
+	LOAD_TOKEN:		type('[User] Load token'),
 	LOGIN_SUCCESS:	type('[User] Login success'),
 	LOGIN_ERROR:	type('[User] Login error'),
 	LOGOUT:			type('[User] Logout'),
@@ -26,9 +26,8 @@ export class LoginAction implements Action {
 	constructor(public payload: LoginType) { }
 }
 
-export class NewTokenAction implements Action {
-	type = ActionTypes.NEW_TOKEN;
-	constructor(public payload: string) { }
+export class LoadTokenAction implements Action {
+	type = ActionTypes.LOAD_TOKEN;
 }
 
 export class LoginSuccessAction implements Action {
@@ -48,6 +47,7 @@ export class LogoutAction implements Action {
 
 export type Actions
 	= LoginAction
+	| LoadTokenAction
 	| LoginSuccessAction
 	| LoginErrorAction
 	| LogoutAction
