@@ -9,6 +9,7 @@ import { combineReducers } from '@ngrx/store';
 import * as fromStream from './stream';
 import * as fromStreams from './streams';
 import * as fromUsers from './users';
+import * as fromUser from './user';
 
 
 export interface State {
@@ -23,6 +24,7 @@ const reducers = {
 	stream: fromStream.reducer,
 	streams: fromStreams.reducer,
 	users: fromUsers.reducer,
+	user: fromUser.reducer,
 	router: fromRouter.routerReducer,
 };
 

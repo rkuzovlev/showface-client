@@ -81,3 +81,7 @@ export function reducer(state = initialState, action: user.Actions): State {
 }
 
 export const getUserId = (state: State) => state.userId;
+export const getLogin = (state: State) => state.login;
+export const getLoginState = createSelector(getLogin, (login) => login.state);
+export const getLoginError = createSelector(getLogin, (login) => login.error);
+export const getToken = createSelector(getLogin, (login) => login.token);
