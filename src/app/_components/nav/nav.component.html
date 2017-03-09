@@ -7,7 +7,7 @@
 			<a routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/" class="nav-item is-tab is-hidden-mobile">Browse</a>
 			<a routerLinkActive="is-active" routerLink="/about" class="nav-item is-tab is-hidden-mobile">About</a>
 		</div>
-		<span class="nav-toggle">
+		<span class="nav-toggle !is-active">
 			<span></span>
 			<span></span>
 			<span></span>
@@ -15,13 +15,15 @@
 		<div class="nav-right nav-menu !is-active">
 			<a routerLinkActive="is-active" routerLink="/" class="nav-item is-tab is-hidden-tablet">Browse</a>
 			<a routerLinkActive="is-active" routerLink="/about" class="nav-item is-tab is-hidden-tablet">About</a>
-			<a routerLinkActive="is-active" routerLink="/profile" class="nav-item is-tab">
+			
+			<a *ngIf="user" routerLinkActive="is-active" routerLink="/profile" class="nav-item is-tab">
 				<span class="icon is-small">
 					<i class="fa fa-user"></i>
 				</span>
-				<span style="margin-left: 5px;">Profile</span>
+				<span style="margin-left: 5px;">{{ user.name }}</span>
 			</a>
-			<a (click)="showLoginModal(); $event.stopPropagation();" class="nav-item is-tab">login</a>
+			<a *ngIf="user" (click)="logout.emit(); $event.stopPropagation();" class="nav-item is-tab">logout</a>
+			<a *ngIf="!user" (click)="showLoginModal(); $event.stopPropagation();" class="nav-item is-tab">login</a>
 		</div>
 	</div>
 </nav>

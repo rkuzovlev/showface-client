@@ -1,4 +1,4 @@
 <app-modal></app-modal>
-<app-nav></app-nav>
+<app-nav [user]="user$ | async" (logout)="logout()"></app-nav>
 <router-outlet></router-outlet>
 <app-footer></app-footer>

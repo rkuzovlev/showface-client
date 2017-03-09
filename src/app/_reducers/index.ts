@@ -16,6 +16,7 @@ export interface State {
 	stream: fromStream.State;
 	streams: fromStreams.State;
 	users: fromUsers.State;
+	user: fromUser.State;
 	router: fromRouter.RouterState;
 }
 
@@ -45,6 +46,13 @@ export const getUsersEntities = createSelector(getUsersState, fromUsers.getEntit
 export const getUsersIds = createSelector(getUsersState, fromUsers.getIds);
 
 
+export const getUserState = (state: State) => state.user;
+export const getUserCurrentId = createSelector(getUserState, fromUser.getUserId);
+export const getUserLoginState = createSelector(getUserState, fromUser.getLogin);
+export const getUserCurrent = createSelector(getUserCurrentId, getUsersEntities, (userId, users) => users[userId]);
+export const getUserCurrentWithLoginState = createSelector(getUserCurrent, getUserLoginState, (user, login) => ({user, login}));
+
+
 export const getStreamsState = (state: State) => state.streams;
 export const getStreamsEntities = createSelector(getStreamsState, fromStreams.getEntities);
 export const getStreamsIds = createSelector(getStreamsState, fromStreams.getIds);
@@ -53,16 +61,8 @@ export const getStreamsNonClosedEntities = createSelector(getStreamsState, fromS
 
 export const getStreamState = (state: State) => state.stream;
 export const getStreamId = createSelector(getStreamState, fromStream.getId);
-export const getStreamEntity = createSelector(getStreamsEntities, getStreamId, (entities, id) => {
-	return entities[id]
-});
-
+export const getStreamEntity = createSelector(getStreamsEntities, getStreamId, (entities, id) => entities[id]);
 export const getStreamStreamerIds = createSelector(getStreamState, fromStream.getStreamerIds);
-export const getStreamStreamers = createSelector(getUsersEntities, getStreamStreamerIds, (users, streamerIds) => {
-	return streamerIds.map(id => users[id]);
-});
-
+export const getStreamStreamers = createSelector(getUsersEntities, getStreamStreamerIds, (users, streamerIds) => streamerIds.map(id => users[id]));
 export const getStreamModeratorIds = createSelector(getStreamState, fromStream.getModeratorIds);
-export const getStreamModerators = createSelector(getUsersEntities, getStreamModeratorIds, (users, moderatorIds) => {
-	return moderatorIds.map(id => users[id]);
-});
+export const getStreamModerators = createSelector(getUsersEntities, getStreamModeratorIds, (users, moderatorIds) => moderatorIds.map(id => users[id]));

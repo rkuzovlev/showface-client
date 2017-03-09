@@ -21,13 +21,15 @@ export class AuthService {
 
 	getCurrentUser(token: string): Observable<User> {
 		const h = new Headers({'Authorization': 'Bearer ' + token});
-		
+
 		return this.http.get('/api/users/current', { headers: h })
 			.map(res => res.json() as User);
 	}
 
 	/**
-	 *	@return Observable<api_token: string>
+	 *	Some magic shit happens here
+	 *
+	 *	@return Promise<api_token: string>
 	 */
 	login(type: LoginType): Promise<string> {
 		let url = "/api/login/";
