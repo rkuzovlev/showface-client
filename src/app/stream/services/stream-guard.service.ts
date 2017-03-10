@@ -12,7 +12,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 
-import { StreamService } from './stream.service';
+import { StreamService } from '../../_services/stream.service';
 import * as reducers from '../../_reducers';
 import * as streamsActions from '../../_actions/streams';
 import * as usersActions from '../../_actions/users';
@@ -95,7 +95,7 @@ export class StreamExistsGuard implements CanActivate {
 			this.loadModerators(id),
 			(stream: Stream, streamers: User[], moderators: User[]): boolean => {
 				this.store.dispatch(new progressActions.CompleteAction());
-				
+
 				if (!stream){
 					this.router.navigate(['/404'])
 					return false;

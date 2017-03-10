@@ -20,10 +20,10 @@ export function reducer(state = initialState, action: users.Actions): State {
 	switch (action.type) {
 		case users.ActionTypes.ADD_USERS: {
 			const _users = action.payload as User[];
-			// const newUsers = _users.filter(user => !state.entities[user.id]);
+			const newUsers = _users.filter(user => !state.entities[user.id]);
 
-			const newUserIds = _users.map(user => user.id);
-			const newUserEntities = _users.reduce((entities: UserEntities, user: User) => {
+			const newUserIds = newUsers.map(user => user.id);
+			const newUserEntities = newUsers.reduce((entities: UserEntities, user: User) => {
 				return Object.assign(entities, {
 					[user.id]: user
 				});

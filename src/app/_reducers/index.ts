@@ -11,11 +11,13 @@ import * as fromStreams from './streams';
 import * as fromUsers from './users';
 import * as fromUser from './user';
 import * as fromProgress from './progress';
+import * as fromBrowse from './browse';
 
 
 export interface State {
 	stream: fromStream.State;
 	streams: fromStreams.State;
+	browse: fromBrowse.State;
 	users: fromUsers.State;
 	user: fromUser.State;
 	progress: fromProgress.State;
@@ -26,6 +28,7 @@ export interface State {
 const reducers = {
 	stream: fromStream.reducer,
 	streams: fromStreams.reducer,
+	browse: fromBrowse.reducer,
 	users: fromUsers.reducer,
 	user: fromUser.reducer,
 	progress: fromProgress.reducer,
@@ -74,3 +77,8 @@ export const getStreamStreamerIds = createSelector(getStreamState, fromStream.ge
 export const getStreamStreamers = createSelector(getUsersEntities, getStreamStreamerIds, (users, streamerIds) => streamerIds.map(id => users[id]));
 export const getStreamModeratorIds = createSelector(getStreamState, fromStream.getModeratorIds);
 export const getStreamModerators = createSelector(getUsersEntities, getStreamModeratorIds, (users, moderatorIds) => moderatorIds.map(id => users[id]));
+
+
+export const getBrowseState = (state: State) => state.browse;
+export const getBrowseIds = createSelector(getBrowseState, fromBrowse.getIds);
+export const getBrowseStreams = createSelector(getBrowseIds, getStreamsEntities, (ids, streams) => ids.map(id => streams[id]));

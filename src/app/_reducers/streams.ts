@@ -20,10 +20,10 @@ export function reducer(state = initialState, action: streams.Actions): State {
 	switch (action.type) {
 		case streams.ActionTypes.LOAD_SUCCESS: {
 			const _streams = action.payload as Stream[];
-			// const newStreams = _streams.filter(stream => !state.entities[stream.id]);
+			const newStreams = _streams.filter(stream => !state.entities[stream.id]);
 
-			const newStreamIds = _streams.map(stream => stream.id);
-			const newStreamEntities = _streams.reduce((entities: StreamEntities, stream: Stream) => {
+			const newStreamIds = newStreams.map(stream => stream.id);
+			const newStreamEntities = newStreams.reduce((entities: StreamEntities, stream: Stream) => {
 				return Object.assign(entities, {
 					[stream.id]: stream
 				});

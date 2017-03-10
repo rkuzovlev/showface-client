@@ -15,7 +15,6 @@ import { DescriptionComponent } from './components/description/description.compo
 
 import { RoutingModule } from './routing.module';
 import { StreamExistsGuard } from './services/stream-guard.service';
-import { StreamService } from './services/stream.service'
 
 
 @NgModule({
@@ -37,7 +36,6 @@ import { StreamService } from './services/stream.service'
 		DescriptionComponent,
 	],
 	providers: [
-		StreamService,
 		StreamExistsGuard,
 	]
 })

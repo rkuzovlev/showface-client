@@ -3,10 +3,9 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/Subject';
-import { Stream } from "../../_models/stream";
-import { User } from "../../_models/user";
+import { Stream } from "../_models/stream";
+import { User } from "../_models/user";
 
-import "rxjs/add/operator/toPromise";
 import 'rxjs/add/operator/map'
 
 
@@ -26,5 +25,9 @@ export class StreamService {
 
     getStreamStreamers(streamId: number): Observable<User[]> {
         return this.http.get(`/api/streams/${streamId}/streamers` ).map((response: Response) => response.json() as User[]);
+    }
+
+    getBrowseStreams(): Observable<Stream[]> {
+        return this.http.get(`/api/streams/browse`).map((response: Response) => response.json() as Stream[]);
     }
 }
