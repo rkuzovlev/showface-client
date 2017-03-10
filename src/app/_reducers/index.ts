@@ -10,6 +10,7 @@ import * as fromStream from './stream';
 import * as fromStreams from './streams';
 import * as fromUsers from './users';
 import * as fromUser from './user';
+import * as fromProgress from './progress';
 
 
 export interface State {
@@ -17,6 +18,7 @@ export interface State {
 	streams: fromStreams.State;
 	users: fromUsers.State;
 	user: fromUser.State;
+	progress: fromProgress.State;
 	router: fromRouter.RouterState;
 }
 
@@ -26,6 +28,7 @@ const reducers = {
 	streams: fromStreams.reducer,
 	users: fromUsers.reducer,
 	user: fromUser.reducer,
+	progress: fromProgress.reducer,
 	router: fromRouter.routerReducer,
 };
 
@@ -39,6 +42,11 @@ export function reducer(state: any, action: any) {
 		return developmentReducer(state, action);
 	}
 }
+
+
+export const getProgressState = (state: State) => state.progress;
+export const getProgressValue = createSelector(getProgressState, fromProgress.getValue);
+export const getProgressIsShow = createSelector(getProgressState, fromProgress.isShow);
 
 
 export const getUsersState = (state: State) => state.users;

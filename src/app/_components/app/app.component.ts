@@ -13,6 +13,8 @@ import { User } from "../../_models/user";
 export class AppComponent implements OnInit  {
 	title = 'app works!';
 	user$: Observable<User>
+	progressValue$: Observable<number>
+	progressShow$: Observable<boolean>
 
 	constructor(
 		private store: Store<reducers.State>,
@@ -25,6 +27,8 @@ export class AppComponent implements OnInit  {
 
 	ngOnInit() {
 		this.user$ = this.store.select(reducers.getUserCurrent);
+		this.progressShow$ = this.store.select(reducers.getProgressIsShow);
+		this.progressValue$ = this.store.select(reducers.getProgressValue);
 	}
 
 	logout() {

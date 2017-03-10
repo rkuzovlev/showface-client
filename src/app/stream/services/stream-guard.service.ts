@@ -17,6 +17,7 @@ import * as reducers from '../../_reducers';
 import * as streamsActions from '../../_actions/streams';
 import * as usersActions from '../../_actions/users';
 import * as streamActions from '../../_actions/stream';
+import * as progressActions from '../../_actions/progress';
 
 import { Stream } from '../../_models/stream';
 import { User } from '../../_models/user';
@@ -35,6 +36,7 @@ export class StreamExistsGuard implements CanActivate {
 		return this.streamService
 			.getStream(id)
 			.do((streamEntity) => this.store.dispatch(new streamsActions.AddStreamAction(streamEntity)))
+			.do(() => this.store.dispatch(new progressActions.AddToValueAction(25)))
 			.catch(() => {
 				return of(null);
 			});
@@ -68,6 +70,7 @@ export class StreamExistsGuard implements CanActivate {
 		return this.streamService
 			.getStreamModerators(id)
 			.do((userEntities) => this.store.dispatch(new usersActions.AddUsersAction(userEntities)))
+			.do(() => this.store.dispatch(new progressActions.AddToValueAction(25)))
 			.catch(() => {
 				return of(null);
 			});
@@ -77,17 +80,22 @@ export class StreamExistsGuard implements CanActivate {
 		return this.streamService
 			.getStreamStreamers(id)
 			.do((userEntities) => this.store.dispatch(new usersActions.AddUsersAction(userEntities)))
+			.do(() => this.store.dispatch(new progressActions.AddToValueAction(25)))
 			.catch(() => {
 				return of(null);
 			});
 	}
 
 	checkStream(id: number): Observable<boolean> {
+		this.store.dispatch(new progressActions.SetValueAction(25));
+
 		return forkJoin(
 			this.loadStream(id),
 			this.loadStreamers(id),
 			this.loadModerators(id),
 			(stream: Stream, streamers: User[], moderators: User[]): boolean => {
+				this.store.dispatch(new progressActions.CompleteAction());
+				
 				if (!stream){
 					this.router.navigate(['/404'])
 					return false;

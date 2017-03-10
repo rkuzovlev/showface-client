@@ -1,3 +1,4 @@
+<progress class="progress loading-bar is-info" [class.is-transparent]="!(progressShow$ | async)" [value]="progressValue$ | async" max="100"></progress>
 <app-modal></app-modal>
 <app-nav [user]="user$ | async" (logout)="logout()"></app-nav>
 <router-outlet></router-outlet>
