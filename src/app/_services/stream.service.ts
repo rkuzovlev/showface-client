@@ -6,6 +6,8 @@ import { Subject } from 'rxjs/Subject';
 import { Stream } from "../_models/stream";
 import { User } from "../_models/user";
 
+import { ApiService } from "./api.service";
+
 import 'rxjs/add/operator/map'
 
 
@@ -13,21 +15,23 @@ import 'rxjs/add/operator/map'
 export class StreamService {
     // private subject = new Subject<Modal>();
 
-    constructor(private http: Http) { }
+    constructor(
+        private api: ApiService
+    ) { }
 
     getStream(id: number): Observable<Stream> {
-        return this.http.get(`/api/streams/${id}`).map((response: Response) => response.json() as Stream);
+        return this.api.get(`/api/streams/${id}`).map((response: Response) => response.json() as Stream);
     }
 
     getStreamModerators(streamId: number): Observable<User[]> {
-        return this.http.get(`/api/streams/${streamId}/moderators` ).map((response: Response) => response.json() as User[]);
+        return this.api.get(`/api/streams/${streamId}/moderators` ).map((response: Response) => response.json() as User[]);
     }
 
     getStreamStreamers(streamId: number): Observable<User[]> {
-        return this.http.get(`/api/streams/${streamId}/streamers` ).map((response: Response) => response.json() as User[]);
+        return this.api.get(`/api/streams/${streamId}/streamers` ).map((response: Response) => response.json() as User[]);
     }
 
     getBrowseStreams(): Observable<Stream[]> {
-        return this.http.get(`/api/streams/browse`).map((response: Response) => response.json() as Stream[]);
+        return this.api.get(`/api/streams/browse`).map((response: Response) => response.json() as Stream[]);
     }
 }

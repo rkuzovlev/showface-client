@@ -25,14 +25,14 @@ import { User } from '../../_models/user';
 
 
 @Injectable()
-export class StreamExistsGuard implements CanActivate {
+export class StreamGuard implements CanActivate {
 	constructor(
 		private store: Store<reducers.State>,
 		private streamService: StreamService,
 		private router: Router
 	) { }
 
-	hasStreamInApi(id: number): Observable<Stream> {
+	loadStream(id: number): Observable<Stream> {
 		return this.streamService
 			.getStream(id)
 			.do((streamEntity) => this.store.dispatch(new streamsActions.AddStreamAction(streamEntity)))
@@ -40,30 +40,6 @@ export class StreamExistsGuard implements CanActivate {
 			.catch(() => {
 				return of(null);
 			});
-	}
-
-	hasStreamInStore(id: number): Observable<Stream> {
-		return this.store.select(reducers.getStreamsEntities)
-			.map((entities) => {
-				if (entities[id] && !entities[id].closed){
-					return entities[id];
-				} else {
-					return null;
-				}
-			})
-			.take(1);
-	}
-
-	loadStream(id: number): Observable<Stream> {
-		// return this.hasStreamInStore(id)
-		// 	.switchMap(stream => {
-		// 		if (stream) {
-		// 			return of(stream);
-		// 		}
-
-		// 	});
-
-		return this.hasStreamInApi(id);
 	}
 
 	loadModerators(id: number): Observable<User[]> {

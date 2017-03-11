@@ -6,5 +6,5 @@
 </div>
 
 <div *ngIf="canEdit" class="has-text-centered">
-	<a class="button is-primary">Edit stream</a>
+	<a [routerLink]="['/stream', stream.id, 'edit']" class="button is-primary">Edit stream</a>
 </div>

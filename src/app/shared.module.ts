@@ -6,6 +6,8 @@ import { RouterModule } 	from '@angular/router';
 
 import { StreamCardBigComponent }	from './_components/stream-card-big/stream-card-big.component';
 
+import { ApiService } 			from "./_services/api.service";
+
 
 @NgModule({
 	declarations: [
@@ -21,7 +23,7 @@ import { StreamCardBigComponent }	from './_components/stream-card-big/stream-car
 		StreamCardBigComponent,
 	],
 	providers: [
-
+		ApiService,
 	],
 	bootstrap: []
 })
