@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { of } from 'rxjs/observable/of';
 import { Subject } from 'rxjs/Subject';
 import { Http, Headers } from '@angular/http';
 
@@ -22,6 +23,10 @@ export class AuthService {
 
 	getCurrentUser(): Observable<User> {
 		return this.api.get('/user').map(res => res.json() as User);
+	}
+
+	logout(): Observable<boolean> {
+		return this.api.get('/logout').map(() => true).catch(() => of(false))
 	}
 
 	/**

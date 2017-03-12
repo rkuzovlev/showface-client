@@ -26,7 +26,6 @@ import { User } from '../_models/user';
 export class UserEffects {
 	constructor(
 		private actions$: Actions, 
-		private api: ApiService,
 		private auth: AuthService,
 		private storage: StorageService,
 	){}
@@ -34,8 +33,14 @@ export class UserEffects {
 	@Effect()
 	logout$: Observable<Action> = this.actions$
 		.ofType(userActions.ActionTypes.LOGOUT)
-		.switchMap(() => {
-			this.storage.remove('token');
+		.switchMap(() => this.auth.logout())
+		.switchMap((isLoggedOut) => {
+			if (isLoggedOut){
+				this.storage.remove('token');
+				return of(new userActions.LogoutSuccessAction());
+			}
+			return empty();
+		}).catch(err => {
 			return empty();
 		});
 
@@ -50,6 +55,7 @@ export class UserEffects {
 			new userActions.LoginSuccessAction(user)
 		])
 		.catch(err => {
+			this.storage.remove('token');
 			return of(new userActions.LoginErrorAction(err));
 		});
 

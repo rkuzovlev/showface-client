@@ -10,6 +10,7 @@ export const ActionTypes = {
 	LOGIN_SUCCESS:		type('[User] Login success'),
 	LOGIN_ERROR:		type('[User] Login error'),
 	LOGOUT:				type('[User] Logout'),
+	LOGOUT_SUCCESS:		type('[User] Logout success'),
 };
 
 export enum LoginType {
@@ -48,7 +49,10 @@ export class LoginErrorAction implements Action {
 
 export class LogoutAction implements Action {
 	type = ActionTypes.LOGOUT;
-	constructor() { }
+}
+
+export class LogoutSuccessAction implements Action {
+	type = ActionTypes.LOGOUT_SUCCESS;
 }
 
 export type Actions
@@ -58,5 +62,6 @@ export type Actions
 	| LoginSuccessAction
 	| LoginErrorAction
 	| LogoutAction
+	| LogoutSuccessAction
 	| LoadUserAction
 	;

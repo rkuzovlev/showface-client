@@ -67,7 +67,7 @@ export function reducer(state = initialState, action: user.Actions): State {
 			return Object.assign({}, state, { userId: 0, login: login });
 		}
 
-		case user.ActionTypes.LOGOUT: {
+		case user.ActionTypes.LOGOUT_SUCCESS: {
 			const login = {
 				state: LoginState.Unauthorized,
 				error: null,
