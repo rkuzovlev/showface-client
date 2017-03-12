@@ -27,10 +27,12 @@ export class PageStreamEditComponent implements OnInit {
 		this.stream$ = this.store.select(reducers.getStreamEntity);
 		this.moderators$ = this.store.select(reducers.getStreamModerators);
 		this.streamers$ = this.store.select(reducers.getStreamStreamers);
-		this.currentUserIsModerator$ = this.store.select(reducers.getUserCurrent).map(u => u.moderator);
+		this.currentUserIsModerator$ = this.store.select(reducers.getUserCurrent)
+			.filter(u => !!u)
+			.map(u => u.moderator);
 	}
 
-	saveStream(streamFields){
-		console.log('PageStreamEditComponent saveStream', streamFields);
+	saveStream(stream){
+		console.log('PageStreamEditComponent saveStream', stream);
 	}
 }

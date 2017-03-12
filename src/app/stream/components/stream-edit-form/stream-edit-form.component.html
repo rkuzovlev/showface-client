@@ -1,4 +1,4 @@
-<form [formGroup]="streamForm" novalidate (ngSubmit)="save();">
+<form [formGroup]="streamForm" (ngSubmit)="save(); $event.preventDefault();" autocomplete="off" novalidate>
 	<div class="columns">
 		<div class="column is-8">
 			
@@ -12,7 +12,6 @@
 					</p>
 				</div>
 			</div>
-			
 
 			<label for="stream-title" class="label">Title</label>
 			<p class="control has-icon has-icon-right">
@@ -47,7 +46,7 @@
 				<span class="help is-danger" [class.is-hidden]="streamForm.controls.description.valid">Description is required</span>
 			</p>
 
-			<div class="control is-hidden-mobile is-grouped is-pulled-right">
+			<div *ngIf="isModerator" class="control is-hidden-mobile is-grouped is-pulled-right">
 				<p *ngIf="!stream.closed" class="control">
 					<button class="button is-danger">Close stream</button>
 				</p>
@@ -72,11 +71,11 @@
 			<stream-moderators [canEdit]="true" [moderators]="moderators"></stream-moderators>
 		</div>
 	</div>
-	
+
 	<div class="columns is-hidden-tablet">
 		<div class="column is-8">
 
-			<div class="control is-grouped is-pulled-right">
+			<div *ngIf="isModerator" class="control is-grouped is-pulled-right">
 				<p *ngIf="isModerator && !stream.closed" class="control">
 					<button class="button is-danger">Close stream</button>
 				</p>

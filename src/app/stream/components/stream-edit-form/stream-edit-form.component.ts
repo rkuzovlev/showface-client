@@ -33,7 +33,15 @@ export class StreamEditFormComponent implements OnInit {
 			return;
 		}
 
-		this.saveStream.emit(this.streamForm.value);
+		console.log(this.stream, this.streamForm.value);
+
+		// for (let f in this.streamForm.value){
+		// 	if (this.streamForm.value.hasOwnProperty(f)){
+		// 		this.stream[f] = this.streamForm.value[f];
+		// 	}
+		// }
+
+		// this.saveStream.emit(this.stream);
 	}
 
 	ngOnInit(){
