@@ -26,7 +26,7 @@ import { User } from '../_models/user';
 export class UserEffects {
 	constructor(
 		private actions$: Actions, 
-		private http: Http,
+		private api: ApiService,
 		private auth: AuthService,
 		private storage: StorageService,
 	){}
@@ -41,28 +41,32 @@ export class UserEffects {
 
 
 	@Effect()
+	loadUser$: Observable<Action> = this.actions$
+		.ofType(userActions.ActionTypes.LOAD_USER)
+		.switchMap(() => this.auth.getCurrentUser())
+		// .do((user: User) => console.log('loadUser$', user))
+		.mergeMap((user: User) => [
+			new usersActions.AddUserAction(user),
+			new userActions.LoginSuccessAction(user)
+		])
+		.catch(err => {
+			return of(new userActions.LoginErrorAction(err));
+		});
+
+
+	@Effect()
 	loadToken$: Observable<Action> = this.actions$
 		.ofType(userActions.ActionTypes.LOAD_TOKEN)
 		.map(() => this.storage.get('token'))
 		.filter((token: string) => !!token && token.length > 0)
-		.switchMap((token: string) => {
-			return this.auth.getCurrentUser(token).map((user: User) => {
-				const ls: userActions.LoginSuccess = {
-					token: token,
-					user: user
-				};
-				return ls;
-			});
-		}).mergeMap((ls: userActions.LoginSuccess) => {
-			return [
-				new usersActions.AddUserAction(ls.user),
-				new userActions.LoginSuccessAction(ls)
-			];
-		}).catch(err => {
+		// .do((token: string) => console.log('loadToken$', token))
+		.mergeMap((token: string) => [
+			new userActions.LoadTokenSuccessAction(token),
+			new userActions.LoadUserAction()
+		]).catch(err => {
 			this.storage.remove('token');
-			return empty();
+			return of(new userActions.LoadTokenSuccessAction(null));
 		});
-
 
 
 	@Effect()
@@ -70,22 +74,13 @@ export class UserEffects {
 		.ofType(userActions.ActionTypes.LOGIN)
 		.map((action: userActions.LoginAction) => action.payload)
 		.switchMap((loginType: userActions.LoginType) => this.auth.login(loginType))
-		.switchMap((token: string) => {
+		// .do((token: string) => console.log('login$', token))
+		.mergeMap((token: string) => {
 			this.storage.set('token', token);
 
-			return this.auth.getCurrentUser(token)
-				.map((user: User) => {
-					const ls: userActions.LoginSuccess = {
-						token: token,
-						user: user
-					};
-					return ls;
-				});		
-		})
-		.mergeMap((ls: userActions.LoginSuccess) => {
 			return [
-				new usersActions.AddUserAction(ls.user),
-				new userActions.LoginSuccessAction(ls)
+				new userActions.LoadTokenSuccessAction(token),
+				new userActions.LoadUserAction()
 			];
 		})
 		.catch((err: Error) => {

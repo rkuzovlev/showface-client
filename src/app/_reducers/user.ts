@@ -39,16 +39,20 @@ export function reducer(state = initialState, action: user.Actions): State {
 			return Object.assign({}, state, { login: login });
 		}
 
+		case user.ActionTypes.LOAD_TOKEN_SUCCESS: {
+			const token = action.payload as string;
+
+			const login = Object.assign({}, state.login, { token: token });
+
+			return Object.assign({}, state, { login: login });
+		}
+
 		case user.ActionTypes.LOGIN_SUCCESS: {
-			const loginData = action.payload as user.LoginSuccess;
+			const _user = action.payload as User;
 
-			const login = {
-				state: LoginState.Logined,
-				error: null,
-				token: loginData.token
-			};
+			const login = Object.assign({}, state.login, { state: LoginState.Logined, error: null });
 
-			return Object.assign({}, state, { userId: loginData.user.id, login: login });
+			return Object.assign({}, state, { userId: _user.id, login: login });
 		}
 
 		case user.ActionTypes.LOGIN_ERROR: {

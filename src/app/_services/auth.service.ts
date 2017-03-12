@@ -6,7 +6,8 @@ import { Http, Headers } from '@angular/http';
 
 import * as reducers from '../_reducers';
 import { User } from "../_models/user";
-import { LoginType, LoginErrorAction } from "../_actions/user"
+import { LoginType, LoginErrorAction } from "../_actions/user";
+import { ApiService } from "../_services/api.service";
 
 
 @Injectable()
@@ -16,14 +17,11 @@ export class AuthService {
 
 	constructor(
 		private store: Store<reducers.State>,
-		private http: Http,
+		private api: ApiService,
 	) { }
 
-	getCurrentUser(token: string): Observable<User> {
-		const h = new Headers({'Authorization': 'Bearer ' + token});
-
-		return this.http.get('/api/users/current', { headers: h })
-			.map(res => res.json() as User);
+	getCurrentUser(): Observable<User> {
+		return this.api.get('/user').map(res => res.json() as User);
 	}
 
 	/**
@@ -34,6 +32,7 @@ export class AuthService {
 	login(type: LoginType): Promise<string> {
 		let url = "/api/login/";
 
+		// TODO: change this behavior, may create unresolved promise
 		if (this.loginWindow){
 			this.closeWindow();
 		}

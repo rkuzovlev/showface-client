@@ -20,18 +20,18 @@ export class StreamService {
     ) { }
 
     getStream(id: number): Observable<Stream> {
-        return this.api.get(`/api/streams/${id}`).map((response: Response) => response.json() as Stream);
+        return this.api.get(`/streams/${id}`).map((response: Response) => response.json() as Stream);
     }
 
     getStreamModerators(streamId: number): Observable<User[]> {
-        return this.api.get(`/api/streams/${streamId}/moderators` ).map((response: Response) => response.json() as User[]);
+        return this.api.get(`/streams/${streamId}/moderators`).map((response: Response) => response.json() as User[]);
     }
 
     getStreamStreamers(streamId: number): Observable<User[]> {
-        return this.api.get(`/api/streams/${streamId}/streamers` ).map((response: Response) => response.json() as User[]);
+        return this.api.get(`/streams/${streamId}/streamers`).map((response: Response) => response.json() as User[]);
     }
 
     getBrowseStreams(): Observable<Stream[]> {
-        return this.api.get(`/api/streams/browse`).map((response: Response) => response.json() as Stream[]);
+        return this.api.get(`/streams/browse`).map((response: Response) => response.json() as Stream[]);
     }
 }

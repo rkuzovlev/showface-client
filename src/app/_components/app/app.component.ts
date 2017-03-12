@@ -18,12 +18,7 @@ export class AppComponent implements OnInit  {
 
 	constructor(
 		private store: Store<reducers.State>,
-	) { 
-		store.dispatch(new userActions.LoadTokenAction());
-		store.subscribe(function(state) {
-			console.log('state', state);
-		})
-	}
+	){}
 
 	ngOnInit() {
 		this.user$ = this.store.select(reducers.getUserCurrent);

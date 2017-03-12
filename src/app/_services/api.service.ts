@@ -16,6 +16,7 @@ export class ApiService {
 		private http: Http,
 	){
 		this.store.select(reducers.getUserState).subscribe(userState => {
+			// console.log('new token', userState.login.token);
 			this.token = userState.login.token;
 		});
 	}
@@ -34,7 +35,7 @@ export class ApiService {
 		}
 
 		if (this.token && this.token.length > 0){
-			newOptions.headers.set("Authorization", "Bearer " + this.token);
+			newOptions.headers.set("x-token", this.token);
 		}
 
 		return newOptions;

@@ -3,22 +3,19 @@ import { User } from '../_models/user';
 import { type } from '../utils';
 
 export const ActionTypes = {
-	LOGIN:			type('[User] Login'),
-	LOAD_TOKEN:		type('[User] Load token'),
-	LOGIN_SUCCESS:	type('[User] Login success'),
-	LOGIN_ERROR:	type('[User] Login error'),
-	LOGOUT:			type('[User] Logout'),
+	LOGIN:				type('[User] Login'),
+	LOAD_USER:			type('[User] Load user'),
+	LOAD_TOKEN:			type('[User] Load token'),
+	LOAD_TOKEN_SUCCESS:	type('[User] Load token success'),
+	LOGIN_SUCCESS:		type('[User] Login success'),
+	LOGIN_ERROR:		type('[User] Login error'),
+	LOGOUT:				type('[User] Logout'),
 };
 
 export enum LoginType {
     Facebook = 1,
     VK,
     Google
-}
-
-export interface LoginSuccess {
-	token: string;
-	user: User
 }
 
 export class LoginAction implements Action {
@@ -30,9 +27,18 @@ export class LoadTokenAction implements Action {
 	type = ActionTypes.LOAD_TOKEN;
 }
 
+export class LoadTokenSuccessAction implements Action {
+	type = ActionTypes.LOAD_TOKEN_SUCCESS;
+	constructor(public payload: string) { }
+}
+
+export class LoadUserAction implements Action {
+	type = ActionTypes.LOAD_USER;
+}
+
 export class LoginSuccessAction implements Action {
 	type = ActionTypes.LOGIN_SUCCESS;
-	constructor(public payload: LoginSuccess) { }
+	constructor(public payload: User) { }
 }
 
 export class LoginErrorAction implements Action {
@@ -48,7 +54,9 @@ export class LogoutAction implements Action {
 export type Actions
 	= LoginAction
 	| LoadTokenAction
+	| LoadTokenSuccessAction
 	| LoginSuccessAction
 	| LoginErrorAction
 	| LogoutAction
+	| LoadUserAction
 	;

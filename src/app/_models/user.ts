@@ -5,5 +5,6 @@ export class User {
 		public avatar: string,
 		public name: string,
 		public status: string,
+		public moderator: boolean,
 	){ }
 }

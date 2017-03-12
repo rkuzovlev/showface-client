@@ -19,6 +19,7 @@ import { AuthGuard } 			from "./_services/auth-guard.service";
 import { AuthAdminGuard } 		from "./_services/auth-admin-guard.service";
 import { StorageService } 		from "./_services/storage.service";
 import { StreamService } 		from './_services/stream.service'
+import { LoadTokenGuard } 		from './_services/load-token-guard.service'
 
 import { LoginComponent }			from './_components/login/login.component';
 import { AppComponent }				from './_components/app/app.component';
@@ -59,6 +60,7 @@ import { reducer } from './_reducers'
 		AuthService,
 		AuthGuard,
 		AuthAdminGuard,
+		LoadTokenGuard,
 	],
 	bootstrap: [AppComponent]
 })
