@@ -12,11 +12,17 @@ import * as userActions from '../_actions/user';
 
 @Injectable()
 export class LoadTokenGuard implements CanActivate, CanActivateChild {
+	isLoaded: boolean = false;
+
 	constructor(
 		private store: Store<reducers.State>,
 	) {}
 
 	loadToken(){
+		if (this.isLoaded){
+			return;
+		}
+		this.isLoaded = true;
 		this.store.dispatch(new userActions.LoadTokenAction());
 	}
 
