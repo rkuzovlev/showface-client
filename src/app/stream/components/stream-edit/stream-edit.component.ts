@@ -17,6 +17,7 @@ export class PageStreamEditComponent implements OnInit {
 	stream$: Observable<Stream>
 	moderators$: Observable<User[]>
 	streamers$: Observable<User[]>
+	currentUserIsModerator$: Observable<boolean>
 
 	constructor(
 		private store: Store<reducers.State>
@@ -26,5 +27,10 @@ export class PageStreamEditComponent implements OnInit {
 		this.stream$ = this.store.select(reducers.getStreamEntity);
 		this.moderators$ = this.store.select(reducers.getStreamModerators);
 		this.streamers$ = this.store.select(reducers.getStreamStreamers);
+		this.currentUserIsModerator$ = this.store.select(reducers.getUserCurrent).map(u => u.moderator);
+	}
+
+	saveStream(streamFields){
+		console.log('PageStreamEditComponent saveStream', streamFields);
 	}
 }

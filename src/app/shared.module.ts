@@ -1,6 +1,6 @@
 import { CommonModule }     from '@angular/common';
 import { NgModule } 		from '@angular/core';
-import { FormsModule } 		from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } 		from '@angular/http';
 import { RouterModule } 	from '@angular/router';
 
@@ -17,6 +17,7 @@ import { ApiService } 			from "./_services/api.service";
 		RouterModule,
 		CommonModule,
 		FormsModule,
+		ReactiveFormsModule,
 		HttpModule,
 	],
 	exports: [

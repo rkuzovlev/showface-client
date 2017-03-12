@@ -1,6 +1,6 @@
 import { NgModule }		 from '@angular/core';
 import { CommonModule }	 from '@angular/common';
-import { FormsModule }	 from '@angular/forms';
+import { FormsModule, ReactiveFormsModule }	from '@angular/forms';
 
 import { PageStreamComponent } from './components/stream/stream.component';
 import { PageStreamEditComponent } from './components/stream-edit/stream-edit.component';
@@ -23,10 +23,11 @@ import { StreamGuard } from './services/stream-guard.service';
 
 @NgModule({
 	imports: [
+		SharedModule,
 		CommonModule,
 		FormsModule,
+		ReactiveFormsModule,
 		RoutingModule,
-		SharedModule
 	],
 	declarations: [
 		PageStreamComponent,

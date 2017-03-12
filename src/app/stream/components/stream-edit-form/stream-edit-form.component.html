@@ -1,74 +1,99 @@
-<div class="columns">
-	<div class="column is-8">
+<form [formGroup]="streamForm" novalidate (ngSubmit)="save();">
+	<div class="columns">
+		<div class="column is-8">
+			
+			<div class="columns">
+				<div class="column is-8-desktop">
+					<p class="control">
+						<figure class="image is-16by9">
+							<img src="{{ stream.image }}" alt="Image">
+						</figure>
+						<a class="button is-primary is-flex-touch is-flex-tablet is-flex-desktop change-avatar">change image</a>
+					</p>
+				</div>
+			</div>
+			
 
-		<div class="columns">
-			<div class="column is-8-desktop">
-				<p class="control">
-					<figure class="image is-16by9">
-						<img src="{{ stream.image }}" alt="Image">
-					</figure>
-					<a class="button is-primary is-flex-touch is-flex-tablet is-flex-desktop change-avatar">change image</a>
+			<label for="stream-title" class="label">Title</label>
+			<p class="control has-icon has-icon-right">
+				<input 
+					id="stream-title" 
+					class="input" 
+					type="text" 
+					placeholder="title" 
+					formControlName="title"
+					[class.is-danger]="!streamForm.controls.title.valid"
+				>
+
+				<span class="icon is-small" [class.is-hidden]="streamForm.controls.title.valid">
+					<i class="fa fa-warning"></i>
+				</span>
+				<span class="help is-danger" [class.is-hidden]="streamForm.controls.title.valid">Title is required</span>
+			</p>
+
+			<label for="stream-description" class="label">Description</label>
+			<p class="control has-icon has-icon-right">
+				<textarea 
+					id="stream-description" 
+					class="textarea" 
+					placeholder="Textarea" 
+					formControlName="description"
+					[class.is-danger]="!streamForm.controls.description.valid"
+				></textarea>
+
+				<span class="icon is-small" [class.is-hidden]="streamForm.controls.description.valid">
+					<i class="fa fa-warning"></i>
+				</span>
+				<span class="help is-danger" [class.is-hidden]="streamForm.controls.description.valid">Description is required</span>
+			</p>
+
+			<div class="control is-hidden-mobile is-grouped is-pulled-right">
+				<p *ngIf="!stream.closed" class="control">
+					<button class="button is-danger">Close stream</button>
+				</p>
+				<p *ngIf="stream.closed" class="control">
+					<button class="button is-success">Open stream</button>
 				</p>
 			</div>
-		</div>
-		
 
-		<label for="stream-title" class="label">Title</label>
-		<p class="control">
-			<input id="stream-title" class="input" type="text" placeholder="title" value="{{ stream.title }}">
-		</p>
+			<div class="control is-hidden-mobile is-grouped">
+				<p class="control">
+					<button [disabled]="!streamForm.valid" type="submit" class="button is-primary">Save</button>
+				</p>
+				<p class="control">
+					<a [routerLink]="['/stream', stream.id]" class="button is-link">Cancel</a>
+				</p>
+			</div>
 
-
-		<label class="label">Description</label>
-		<p class="control">
-			<textarea class="textarea" placeholder="Textarea">{{ stream.description }}</textarea>
-		</p>
-
-		<div class="control is-hidden-mobile is-grouped is-pulled-right">
-			<p *ngIf="!stream.closed" class="control">
-				<button class="button is-danger">Close stream</button>
-			</p>
-			<p *ngIf="stream.closed" class="control">
-				<button class="button is-success">Open stream</button>
-			</p>
 		</div>
 
-		<div class="control is-hidden-mobile is-grouped">
-			<p class="control">
-				<button class="button is-primary">Save</button>
-			</p>
-			<p class="control">
-				<a [routerLink]="['/stream', stream.id]" class="button is-link">Cancel</a>
-			</p>
+		<div class="column">
+			<stream-streamers [canEdit]="true" [streamers]="streamers"></stream-streamers>
+			<stream-moderators [canEdit]="true" [moderators]="moderators"></stream-moderators>
 		</div>
-
 	</div>
+	
+	<div class="columns is-hidden-tablet">
+		<div class="column is-8">
 
-	<div class="column">
-		<stream-streamers [canEdit]="true" [streamers]="streamers"></stream-streamers>
-		<stream-moderators [canEdit]="true" [moderators]="moderators"></stream-moderators>
-	</div>
-</div>
-<div class="columns is-hidden-tablet">
-	<div class="column is-8">
+			<div class="control is-grouped is-pulled-right">
+				<p *ngIf="isModerator && !stream.closed" class="control">
+					<button class="button is-danger">Close stream</button>
+				</p>
+				<p *ngIf="isModerator && stream.closed" class="control">
+					<button class="button is-success">Open stream</button>
+				</p>
+			</div>
 
-		<div class="control is-grouped is-pulled-right">
-			<p *ngIf="!stream.closed" class="control">
-				<button class="button is-danger">Close stream</button>
-			</p>
-			<p *ngIf="stream.closed" class="control">
-				<button class="button is-success">Open stream</button>
-			</p>
+			<div class="control is-grouped">
+				<p class="control">
+					<button [disabled]="!streamForm.valid" type="submit" class="button is-primary">Save</button>
+				</p>
+				<p class="control">
+					<a [routerLink]="['/stream', stream.id]" class="button is-link">Cancel</a>
+				</p>
+			</div>
+
 		</div>
-
-		<div class="control is-grouped">
-			<p class="control">
-				<button class="button is-primary">Save</button>
-			</p>
-			<p class="control">
-				<a [routerLink]="['/stream', stream.id]" class="button is-link">Cancel</a>
-			</p>
-		</div>
-
 	</div>
-</div>
+</form>
