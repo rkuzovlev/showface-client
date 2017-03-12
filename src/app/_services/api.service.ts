@@ -42,7 +42,7 @@ export class ApiService {
 	}
 
 	get(url: string, options?: RequestOptionsArgs): Observable<Response> {
-		console.log('ApiService get', urlJoin(this.apiUrl, url));
+		// console.log('ApiService get', urlJoin(this.apiUrl, url));
 
 		var newOptions = this.addToken(options);
 
@@ -50,7 +50,7 @@ export class ApiService {
 	}
 
 	post(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
-		console.log('ApiService post', urlJoin(this.apiUrl, url));
+		// console.log('ApiService post', urlJoin(this.apiUrl, url));
 		
 		var newOptions = this.addToken(options);
 		

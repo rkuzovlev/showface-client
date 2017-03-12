@@ -12,6 +12,7 @@ import { StreamModule } 		from './stream/stream.module';
 import { IndexModule } 			from './index/index.module';
 import { AboutModule } 			from './about/about.module';
 import { LoginModule } 			from './login/login.module';
+import { ErrorPagesModule } 	from './error-pages/error-pages.module';
 
 import { ModalWindowService } 	from "./_services/modal-window.service";
 import { AuthService } 			from "./_services/auth.service";
@@ -49,6 +50,7 @@ import { reducer } from './_reducers'
 		AboutModule,
 		StreamModule,
 		ProfileModule,
+		ErrorPagesModule,
 		AppRoutingModule,
 		BrowserModule,
 		EffectsModule.run(UserEffects),
