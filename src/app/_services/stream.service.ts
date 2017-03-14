@@ -2,6 +2,7 @@ import { Injectable }    from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 
 import { Observable } from 'rxjs';
+import { _throw } from 'rxjs/observable/throw';
 import { Subject } from 'rxjs/Subject';
 import { Stream } from "../_models/stream";
 import { User } from "../_models/user";
@@ -33,5 +34,12 @@ export class StreamService {
 
     getBrowseStreams(): Observable<Stream[]> {
         return this.api.get(`/streams/browse`).map((response: Response) => response.json() as Stream[]);
+    }
+
+    putStream(stream: Stream): Observable<Stream> {
+        if (!stream.id) {
+            return _throw(new Error('Stream has no id'));
+        }
+        return this.api.put(`/streams/${stream.id}`, stream).map((response: Response) => response.json() as Stream);
     }
 }

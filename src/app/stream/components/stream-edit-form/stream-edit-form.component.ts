@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store'
 import { Observable } from 'rxjs'
 import { of } from 'rxjs/observable/of'
 
+import { StreamSaveState } from '../../../_reducers/stream'
 import { Stream } from '../../../_models/stream';
 import { User } from '../../../_models/user';
 import * as reducers from '../../../_reducers'
@@ -19,8 +20,9 @@ export class StreamEditFormComponent implements OnInit {
 	@Input() moderators: User[]
 	@Input() streamers: User[]
 	@Input() isModerator: boolean
+	@Input() streamSaveState: StreamSaveState
 
-	@Output() saveStream = new EventEmitter();
+	@Output() saveStream = new EventEmitter<Stream>();
 
 	public streamForm: FormGroup
 
@@ -33,15 +35,18 @@ export class StreamEditFormComponent implements OnInit {
 			return;
 		}
 
-		console.log(this.stream, this.streamForm.value);
+		// TODO: fix this shit
+		var streamForSave = new Stream(
+				this.streamForm.value.title,
+				this.stream.image,
+				this.streamForm.value.description,
+				this.stream.closed,
+				this.stream.id,
+				this.stream.createdAt,
+				this.stream.updatedAt
+			);
 
-		// for (let f in this.streamForm.value){
-		// 	if (this.streamForm.value.hasOwnProperty(f)){
-		// 		this.stream[f] = this.streamForm.value[f];
-		// 	}
-		// }
-
-		// this.saveStream.emit(this.stream);
+		this.saveStream.emit(streamForSave);
 	}
 
 	ngOnInit(){

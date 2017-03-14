@@ -4,6 +4,9 @@ import { User } from '../_models/user';
 import { type } from '../utils';
 
 export const ActionTypes = {
+	SAVE_STREAM: 			type('[Stream] Save stream'),
+	SAVE_STREAM_SUCCESS: 	type('[Stream] Save stream success'),
+	SAVE_STREAM_ERROR: 		type('[Stream] Save stream error'),
 	LOAD_STREAM: 			type('[Stream] Load stream'),
 	LOAD_STREAMERS: 		type('[Stream] Load streamers'),
 	ADD_STREAMER: 			type('[Stream] Add streamer'),
@@ -16,11 +19,25 @@ export const ActionTypes = {
 };
 
 
+export class SaveStreamAction implements Action {
+	type = ActionTypes.SAVE_STREAM;
+	constructor(public payload: Stream) { }
+}
+
+export class SaveStreamSuccessAction implements Action {
+	type = ActionTypes.SAVE_STREAM_SUCCESS;
+}
+
+export class SaveStreamErrorAction implements Action {
+	type = ActionTypes.SAVE_STREAM_ERROR;
+	constructor(public payload: Error) { }
+}
+
+
 export class LoadStreamAction implements Action {
 	type = ActionTypes.LOAD_STREAM;
 	constructor(public payload: Stream) { }
 }
-
 
 // streamers
 export class LoadStreamersAction implements Action {
@@ -68,6 +85,9 @@ export class LoadModeratorsErrorAction implements Action {
 
 export type Actions
 	= LoadStreamAction
+	| SaveStreamAction
+	| SaveStreamSuccessAction
+	| SaveStreamErrorAction
 	| LoadStreamersAction
 	| AddStreamerAction
 	| RemoveModeratorAction

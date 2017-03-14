@@ -50,10 +50,18 @@ export class ApiService {
 	}
 
 	post(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
-		// console.log('ApiService post', urlJoin(this.apiUrl, url));
+		// console.log('ApiService post', urlJoin(this.apiUrl, url), body);
 		
 		var newOptions = this.addToken(options);
 		
-		return this.http.post(urlJoin(this.apiUrl, url), body, options);
+		return this.http.post(urlJoin(this.apiUrl, url), body, newOptions);
+	}
+
+	put(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
+		// console.log('ApiService put', urlJoin(this.apiUrl, url), body);
+		
+		var newOptions = this.addToken(options);
+		
+		return this.http.put(urlJoin(this.apiUrl, url), body, newOptions);
 	}
 }

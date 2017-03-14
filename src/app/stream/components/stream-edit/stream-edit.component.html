@@ -6,6 +6,7 @@
 			[moderators]="moderators$ | async"
 			[streamers]="streamers$ | async"
 			[isModerator]="currentUserIsModerator$ | async"
+			[streamSaveState]="streamSaveState$ | async"
 			(saveStream)="saveStream($event)"
 		>
 		</stream-edit-form>

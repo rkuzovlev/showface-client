@@ -4,6 +4,7 @@ import { NgModule } 		from '@angular/core';
 import { StoreModule } 		 	from '@ngrx/store'
 import { EffectsModule } 	 	from '@ngrx/effects'
 import { RouterStoreModule } 	from '@ngrx/router-store'
+import { StoreDevtoolsModule }	from '@ngrx/store-devtools';
 
 import { SharedModule } 		from './shared.module'
 import { AppRoutingModule } 	from './_modules/app-routing.module';
@@ -29,6 +30,7 @@ import { FooterComponent }			from './_components/footer/footer.component';
 import { ModalComponent }			from './_components/modal/modal.component';
 
 import { UserEffects } from './_effects/user'
+import { StreamEffects } from './_effects/stream'
 
 import { reducer } from './_reducers'
 
@@ -45,6 +47,7 @@ import { reducer } from './_reducers'
 		SharedModule,
 		StoreModule.provideStore(reducer),
 		RouterStoreModule.connectRouter(),
+    	StoreDevtoolsModule.instrumentOnlyWithExtension(),
 		IndexModule,
 		LoginModule,
 		AboutModule,
@@ -54,6 +57,7 @@ import { reducer } from './_reducers'
 		AppRoutingModule,
 		BrowserModule,
 		EffectsModule.run(UserEffects),
+		EffectsModule.run(StreamEffects),
 	],
 	providers: [
 		StreamService,

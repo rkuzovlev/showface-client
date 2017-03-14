@@ -77,6 +77,7 @@ export const getStreamStreamerIds = createSelector(getStreamState, fromStream.ge
 export const getStreamStreamers = createSelector(getUsersEntities, getStreamStreamerIds, (users, streamerIds) => streamerIds.map(id => users[id]));
 export const getStreamModeratorIds = createSelector(getStreamState, fromStream.getModeratorIds);
 export const getStreamModerators = createSelector(getUsersEntities, getStreamModeratorIds, (users, moderatorIds) => moderatorIds.map(id => users[id]));
+export const getStreamSaveSate = createSelector(getStreamState, fromStream.getSaveState);
 
 
 export const getBrowseState = (state: State) => state.browse;

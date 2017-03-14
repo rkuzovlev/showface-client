@@ -20,7 +20,8 @@ const routes: Routes = [
 			{ 
 				path: 'stream/:id/edit', 
 				component: PageStreamEditComponent,
-				canActivate: [ StreamGuard ]
+				canActivate: [ StreamGuard ],
+				data: { edit: true }
 			}
 		]
 	}

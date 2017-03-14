@@ -26,11 +26,17 @@ import { User } from '../../_models/user';
 
 @Injectable()
 export class StreamGuard implements CanActivate {
+	currentUser: User
+
 	constructor(
 		private store: Store<reducers.State>,
 		private streamService: StreamService,
-		private router: Router
-	) { }
+		private router: Router,
+	) {
+		this.store.select(reducers.getUserCurrent).subscribe((user) => {
+			this.currentUser = user;
+		});
+	}
 
 	loadStream(id: number): Observable<Stream> {
 		return this.streamService
@@ -62,7 +68,7 @@ export class StreamGuard implements CanActivate {
 			});
 	}
 
-	checkStream(id: number): Observable<boolean> {
+	checkStream(id: number, forEditPage: boolean): Observable<boolean> {
 		this.store.dispatch(new progressActions.SetValueAction(25));
 
 		return forkJoin(
@@ -78,7 +84,7 @@ export class StreamGuard implements CanActivate {
 				}
 
 				this.store.dispatch(new streamActions.LoadStreamAction(stream));
-
+				
 				if (streamers){
 					this.store.dispatch(new streamActions.LoadStreamersAction(streamers));
 				} else {
@@ -91,12 +97,28 @@ export class StreamGuard implements CanActivate {
 					this.store.dispatch(new streamActions.LoadModeratorsErrorAction());
 				}
 
-				return true;
+				if (!forEditPage){
+					return true;
+				}
+
+				if (this.currentUser.moderator){
+					return true;
+				}
+
+				var isModerator = moderators.some((m) => m.id == this.currentUser.id);
+				var isStreamer = streamers.some((m) => m.id == this.currentUser.id);
+				
+				if (isModerator || isStreamer){
+					return true;
+				}
+
+				this.router.navigate(['/404']);
+				return false;
 			}
 		)
 	}
 
 	canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-		return this.checkStream(+route.params['id']);
+		return this.checkStream(+route.params['id'], !!route.data['edit']);
 	}
 }
