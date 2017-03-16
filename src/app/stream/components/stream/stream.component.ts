@@ -23,8 +23,12 @@ export class PageStreamComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this.stream$ = this.store.select(reducers.getStreamEntity);
+		this.stream$ = this.store.select(reducers.getStreamEntity).filter(s => !!s);
 		this.moderators$ = this.store.select(reducers.getStreamModerators);
 		this.streamers$ = this.store.select(reducers.getStreamStreamers);
+
+
+		this.store.select(reducers.getStreamEntity)
+			.subscribe(s => console.log('test !!!!!!!', s));
 	}
 }

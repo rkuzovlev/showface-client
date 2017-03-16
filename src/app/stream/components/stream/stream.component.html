@@ -4,7 +4,7 @@
 		<div class="tile is-ancestor">
 			<div class="tile is-parent is-vertical is-8">
 				<div class="tile is-child">
-					<stream-title class="block title is-3" [stream]="stream$ | async"></stream-title>
+					<stream-title *ngIf="stream$ | async" class="block title is-3" [stream]="stream$ | async"></stream-title>
 
 					<div class="webrtc video-container">
 						<webrtc-video></webrtc-video>
@@ -32,7 +32,7 @@
 
 		<div class="columns">
 			<div class="column comments is-8">
-				<stream-description [canEdit]="true" [stream]="stream$ | async"></stream-description>
+				<stream-description *ngIf="stream$ | async" [canEdit]="true" [stream]="stream$ | async"></stream-description>
 			</div>
 
 <!--
@@ -42,8 +42,8 @@
 -->
 
 			<div class="column">
-				<stream-streamers [canEdit]="true" [streamers]="streamers$ | async"></stream-streamers>
-				<stream-moderators [canEdit]="true" [moderators]="moderators$ | async"></stream-moderators>
+				<stream-streamers *ngIf="streamers$ | async" [canEdit]="true" [streamers]="streamers$ | async"></stream-streamers>
+				<stream-moderators *ngIf="moderators$ | async" [canEdit]="true" [moderators]="moderators$ | async"></stream-moderators>
 			</div>
 		</div>
 

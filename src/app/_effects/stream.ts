@@ -32,14 +32,14 @@ export class StreamEffects {
 
 	@Effect()
 	saveStream$: Observable<Action> = this.actions$
-		.ofType(streamActions.ActionTypes.SAVE_STREAM)
-		.map((action: streamActions.SaveStreamAction) => action.payload)
+		.ofType(streamsActions.ActionTypes.SAVE_STREAM)
+		.map((action: streamsActions.SaveStreamAction) => action.payload)
 		.switchMap((stream: Stream) => {
 			return this.streamService.putStream(stream)
 				.mergeMap((stream: Stream) => [
 					new streamsActions.AddStreamAction(stream),
-					new streamActions.SaveStreamSuccessAction()
+					new streamsActions.SaveStreamSuccessAction(stream)
 				])
-				.catch((err) => of(new streamActions.SaveStreamErrorAction(err)));
+				.catch((err) => of(new streamsActions.SaveStreamErrorAction(stream, err)));
 		});
 }

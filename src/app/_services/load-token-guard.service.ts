@@ -19,8 +19,6 @@ export class LoadTokenGuard implements CanActivate, CanActivateChild {
 	) {}
 
 	loadToken(){
-		console.log('loadToken');
-
 		if (this.isLoaded){
 			return;
 		}

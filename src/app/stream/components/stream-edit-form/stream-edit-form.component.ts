@@ -6,7 +6,6 @@ import { Store } from '@ngrx/store'
 import { Observable } from 'rxjs'
 import { of } from 'rxjs/observable/of'
 
-import { StreamSaveState } from '../../../_reducers/stream'
 import { Stream } from '../../../_models/stream';
 import { User } from '../../../_models/user';
 import * as reducers from '../../../_reducers'
@@ -20,7 +19,6 @@ export class StreamEditFormComponent implements OnInit, OnChanges {
 	@Input() moderators: User[]
 	@Input() streamers: User[]
 	@Input() isModerator: boolean
-	@Input() streamSaveState: StreamSaveState
 
 	@Output() saveStream = new EventEmitter<Stream>();
 	@Output() closeStream = new EventEmitter<number>();
@@ -36,14 +34,6 @@ export class StreamEditFormComponent implements OnInit, OnChanges {
 			title: ['', [Validators.required]],
 			description: ['', [Validators.required]]
 		});
-
-		var title: FormControl = this.streamForm.controls['title'] as FormControl;
-
-		setInterval(() => {
-			title.setValue(Math.trunc(Math.random() * 100));
-		}, 1000);
-
-		console.log('this.streamForm.controls', this.streamForm.controls['id']);
 	}
 
 	save(){
@@ -62,24 +52,16 @@ export class StreamEditFormComponent implements OnInit, OnChanges {
 				this.stream.updatedAt
 			);
 
+		console.log('streamForSave', streamForSave);
+		streamForSave.saveInProgress = true;
+
 		this.saveStream.emit(streamForSave);
 	}
 
 	ngOnChanges(){
-		console.log('stream', this.stream);
-		console.log('moderators', this.moderators);
-		console.log('streamers', this.streamers);
-		console.log('isModerator', this.isModerator);
-		console.log('streamSaveState', this.streamSaveState);
-
-		// if (this.stream){
-
-		// 	this.streamForm.patchValue({
-		// 		id: this.stream.id,
-		// 		title: this.stream.title,
-		// 		description: this.stream.description
-		// 	});
-		// }
+		(this.streamForm.controls['id'] as FormControl).setValue(this.stream.id);
+		(this.streamForm.controls['title'] as FormControl).setValue(this.stream.title);
+		(this.streamForm.controls['description'] as FormControl).setValue(this.stream.description);
 	}
 
 	ngOnInit(){

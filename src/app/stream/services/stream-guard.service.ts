@@ -96,11 +96,11 @@ export class StreamGuard implements CanActivate {
 					this.store.dispatch(new streamActions.LoadModeratorsErrorAction());
 				}
 
+ 				// console.log('currentUser', currentUser);
+
 				if (!forEditPage){
 					return true;
-				}
- 
- 				console.log('currentUser', currentUser);
+				} 
 
 				if (currentUser.moderator){
 					return true;

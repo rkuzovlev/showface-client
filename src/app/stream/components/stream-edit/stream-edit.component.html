@@ -2,11 +2,12 @@
 	<div class="container">
 
 		<stream-edit-form
+			*ngIf="(stream$ | async) && (moderators$ | async) && (streamers$ | async)"
 			[stream]="stream$ | async"
 			[moderators]="moderators$ | async"
 			[streamers]="streamers$ | async"
 			[isModerator]="currentUserIsModerator$ | async"
-			[streamSaveState]="streamSaveState$ | async"
+			
 			(saveStream)="saveStream($event)"
 			(closeStream)="closeStream($event)"
 			(openStream)="openStream($event)"

@@ -8,8 +8,7 @@ import { of } from 'rxjs/observable/of'
 import { Stream } from '../../../_models/stream';
 import { User } from '../../../_models/user';
 import * as reducers from '../../../_reducers'
-import { StreamSaveState } from '../../../_reducers/stream'
-import { SaveStreamAction } from '../../../_actions/stream'
+import { SaveStreamAction } from '../../../_actions/streams'
 
 
 @Component({
@@ -21,7 +20,6 @@ export class PageStreamEditComponent implements OnInit {
 	moderators$: Observable<User[]>
 	streamers$: Observable<User[]>
 	currentUserIsModerator$: Observable<boolean>
-	streamSaveState$: Observable<StreamSaveState>
 
 	constructor(
 		private store: Store<reducers.State>
@@ -31,9 +29,8 @@ export class PageStreamEditComponent implements OnInit {
 		this.stream$ = this.store.select(reducers.getStreamEntity);
 		this.moderators$ = this.store.select(reducers.getStreamModerators);
 		this.streamers$ = this.store.select(reducers.getStreamStreamers);
-		this.streamSaveState$ = this.store.select(reducers.getStreamSaveSate);
 		this.currentUserIsModerator$ = this.store.select(reducers.getUserCurrent)
-			// .filter(u => !!u)
+			.filter(u => !!u)
 			.map(u => u.moderator);
 	}
 

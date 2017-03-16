@@ -57,7 +57,7 @@
 
 			<div class="control is-hidden-mobile is-grouped">
 				<p class="control">
-					<button [disabled]="!streamForm.valid || streamSaveState.saveInProgress" [class.is-loading]="streamSaveState.saveInProgress" type="submit" class="button is-primary">Save</button>
+					<button [disabled]="!streamForm.valid || stream.saveInProgress" [class.is-loading]="stream.saveInProgress" type="submit" class="button is-primary">Save</button>
 				</p>
 				<p class="control">
 					<a [routerLink]="['/stream', stream.id]" class="button is-link">Cancel</a>
@@ -65,7 +65,7 @@
 			</div>
 
 			<p class="control is-hidden-mobile">
-				<span class="help is-danger" [class.is-hidden]="!streamSaveState.saveError">{{ streamSaveState.saveError }}</span>
+				<span class="help is-danger" [class.is-hidden]="!stream.saveError">{{ stream.saveError }}</span>
 			</p>
 		</div>
 
@@ -89,7 +89,7 @@
 
 			<div class="control is-grouped">
 				<p class="control">
-					<button [disabled]="!streamForm.valid || streamSaveState.saveInProgress" [class.is-loading]="streamSaveState.saveInProgress" type="submit" class="button is-primary">Save</button>
+					<button [disabled]="!streamForm.valid || stream.saveInProgress" [class.is-loading]="stream.saveInProgress" type="submit" class="button is-primary">Save</button>
 				</p>
 				<p class="control">
 					<a [routerLink]="['/stream', stream.id]" class="button is-link">Cancel</a>
@@ -97,7 +97,7 @@
 			</div>
 
 			<p class="control">
-				<span class="help is-danger" [class.is-hidden]="!streamSaveState.saveError">{{ streamSaveState.saveError }}</span>
+				<span class="help is-danger" [class.is-hidden]="!stream.saveError">{{ stream.saveError }}</span>
 			</p>
 
 		</div>

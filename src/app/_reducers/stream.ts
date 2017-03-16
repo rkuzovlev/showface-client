@@ -10,19 +10,12 @@ import * as stream from '../_actions/stream';
 import { State as ChatState, initialState as ChatInitialState } from './chat'
 
 
-export interface StreamSaveState {
-	saveInProgress: boolean;
-	saveError: Error;
-};
-
 export interface State {
 	id: number;
 	streamerIds: number[];
 	moderatorIds: number[];
 	comments: Comment[];
 	chat: ChatState;
-	saveInProgress: boolean;
-	saveError: Error;
 };
 
 export const initialState: State = {
@@ -31,8 +24,6 @@ export const initialState: State = {
 	moderatorIds: [],
 	comments: [],
 	chat: ChatInitialState,
-	saveInProgress: false,
-	saveError: null,
 };
 
 function addIdToIds(oldIds, newid) {
@@ -59,22 +50,6 @@ function removeIdFromIds(oldIds, id) {
 
 export function reducer(state = initialState, action: stream.Actions): State {
 	switch (action.type) {
-		case stream.ActionTypes.SAVE_STREAM: {
-			return Object.assign({}, state, {saveInProgress: true, saveError: null});
-		}
-
-		case stream.ActionTypes.SAVE_STREAM_SUCCESS: {
-			return Object.assign({}, state, {saveInProgress: false, saveError: null});
-		}
-
-		case stream.ActionTypes.SAVE_STREAM_ERROR: {
-			const err = action.payload as Error;
-			return Object.assign({}, state, {saveInProgress: false, saveError: err});
-		}
-
-
-
-
 		case stream.ActionTypes.LOAD_STREAM: {
 			const stream = action.payload as Stream;
 			return Object.assign({}, state, {id: stream.id});
@@ -126,4 +101,3 @@ export function reducer(state = initialState, action: stream.Actions): State {
 export const getId = (state: State) => state.id;
 export const getModeratorIds = (state: State) => state.moderatorIds;
 export const getStreamerIds = (state: State) => state.streamerIds;
-export const getSaveState = (state: State) => ({saveInProgress: state.saveInProgress, saveError: state.saveError} as StreamSaveState);

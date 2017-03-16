@@ -3,6 +3,10 @@ import { Stream } from '../_models/stream';
 import { type } from '../utils';
 
 export const ActionTypes = {
+	SAVE_STREAM: 			type('[Streams] Save stream'),
+	SAVE_STREAM_SUCCESS: 	type('[Streams] Save stream success'),
+	SAVE_STREAM_ERROR: 		type('[Streams] Save stream error'),
+
 	OPEN_STREAM: 			type('[Streams] Open stream'),
 	OPEN_STREAM_SUCCESS: 	type('[Streams] Open stream success'),
 	OPEN_STREAM_ERROR: 		type('[Streams] Open stream error'),
@@ -14,6 +18,36 @@ export const ActionTypes = {
 	ADD_STREAM:		type('[Streams] Add stream'),
 	LOAD_SUCCESS:	type('[Streams] Load success'),
 };
+
+export class StreamSaveErrorPayload {
+	constructor(
+		public stream: Stream,
+		public error: Error
+	){}
+}
+
+
+
+export class SaveStreamAction implements Action {
+	type = ActionTypes.SAVE_STREAM;
+	constructor(public payload: Stream) { }
+}
+
+export class SaveStreamSuccessAction implements Action {
+	type = ActionTypes.SAVE_STREAM_SUCCESS;
+	constructor(public payload: Stream) { }
+}
+
+export class SaveStreamErrorAction implements Action {
+	payload: StreamSaveErrorPayload
+	type = ActionTypes.SAVE_STREAM_ERROR;
+	constructor(
+		private stream: Stream, 
+		private error: Error
+	){
+		this.payload = new StreamSaveErrorPayload(stream, error);
+	}
+}
 
 
 export class CloseStreamAction implements Action {
@@ -58,6 +92,9 @@ export class LoadSuccessAction implements Action {
 
 export type Actions
 	= AddStreamAction
+	| SaveStreamAction
+	| SaveStreamSuccessAction
+	| SaveStreamErrorAction
 	| CloseStreamAction
 	| CloseStreamSuccessAction
 	| CloseStreamErrorAction

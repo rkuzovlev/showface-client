@@ -7,5 +7,7 @@ export class Stream {
 		public id: number,
 		public createdAt: Date,
 		public updatedAt: Date,
+		public saveInProgress?: boolean,
+		public saveError?: Error,
 	){ }
 }
