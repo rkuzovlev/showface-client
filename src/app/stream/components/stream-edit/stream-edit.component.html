@@ -8,6 +8,8 @@
 			[isModerator]="currentUserIsModerator$ | async"
 			[streamSaveState]="streamSaveState$ | async"
 			(saveStream)="saveStream($event)"
+			(closeStream)="closeStream($event)"
+			(openStream)="openStream($event)"
 		>
 		</stream-edit-form>
 		

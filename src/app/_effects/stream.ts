@@ -33,7 +33,6 @@ export class StreamEffects {
 	@Effect()
 	saveStream$: Observable<Action> = this.actions$
 		.ofType(streamActions.ActionTypes.SAVE_STREAM)
-		.do(() => console.log('Effect saveStream$'))
 		.map((action: streamActions.SaveStreamAction) => action.payload)
 		.switchMap((stream: Stream) => {
 			return this.streamService.putStream(stream)

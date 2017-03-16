@@ -7,6 +7,7 @@ export const ActionTypes = {
 	SAVE_STREAM: 			type('[Stream] Save stream'),
 	SAVE_STREAM_SUCCESS: 	type('[Stream] Save stream success'),
 	SAVE_STREAM_ERROR: 		type('[Stream] Save stream error'),
+	
 	LOAD_STREAM: 			type('[Stream] Load stream'),
 	LOAD_STREAMERS: 		type('[Stream] Load streamers'),
 	ADD_STREAMER: 			type('[Stream] Add streamer'),

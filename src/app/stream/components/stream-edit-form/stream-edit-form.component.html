@@ -48,10 +48,10 @@
 
 			<div *ngIf="isModerator" class="control is-hidden-mobile is-grouped is-pulled-right">
 				<p *ngIf="!stream.closed" class="control">
-					<button class="button is-danger">Close stream</button>
+					<a (click)="closeStream.emit(stream.id);" class="button is-danger">Close stream</a>
 				</p>
 				<p *ngIf="stream.closed" class="control">
-					<button class="button is-success">Open stream</button>
+					<a (click)="openStream.emit(stream.id);" class="button is-success">Open stream</a>
 				</p>
 			</div>
 
@@ -80,10 +80,10 @@
 
 			<div *ngIf="isModerator" class="control is-grouped is-pulled-right">
 				<p *ngIf="isModerator && !stream.closed" class="control">
-					<button class="button is-danger">Close stream</button>
+					<a (click)="closeStream.emit(stream.id);" class="button is-danger">Close stream</a>
 				</p>
 				<p *ngIf="isModerator && stream.closed" class="control">
-					<button class="button is-success">Open stream</button>
+					<a (click)="openStream.emit(stream.id);" class="button is-success">Open stream</a>
 				</p>
 			</div>
 

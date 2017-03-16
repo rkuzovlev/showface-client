@@ -33,12 +33,21 @@ export class PageStreamEditComponent implements OnInit {
 		this.streamers$ = this.store.select(reducers.getStreamStreamers);
 		this.streamSaveState$ = this.store.select(reducers.getStreamSaveSate);
 		this.currentUserIsModerator$ = this.store.select(reducers.getUserCurrent)
-			.filter(u => !!u)
+			// .filter(u => !!u)
 			.map(u => u.moderator);
 	}
 
 	saveStream(stream: Stream){
-		console.log('saveStream');
 		this.store.dispatch(new SaveStreamAction(stream));
+	}
+
+	closeStream(id: number){
+		console.log('closeStream', id);
+		// this.store.dispatch(new SaveStreamAction(stream));
+	}
+
+	openStream(id: number){
+		console.log('openStream', id);
+		// this.store.dispatch(new SaveStreamAction(stream));
 	}
 }

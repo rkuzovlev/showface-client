@@ -19,6 +19,8 @@ export class LoadTokenGuard implements CanActivate, CanActivateChild {
 	) {}
 
 	loadToken(){
+		console.log('loadToken');
+
 		if (this.isLoaded){
 			return;
 		}
@@ -28,7 +30,7 @@ export class LoadTokenGuard implements CanActivate, CanActivateChild {
 
 	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 		this.loadToken();
-		return true;
+		return true
 	}
 
 	canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
