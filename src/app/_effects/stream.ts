@@ -42,4 +42,28 @@ export class StreamEffects {
 				])
 				.catch((err) => of(new streamsActions.SaveStreamErrorAction(stream, err)));
 		});
+
+
+
+	@Effect()
+	openStream$: Observable<Action> = this.actions$
+		.ofType(streamsActions.ActionTypes.OPEN_STREAM)
+		.map((action: streamsActions.OpenStreamAction) => action.payload)
+		.switchMap((streamId: number) => {
+			return this.streamService.openStream(streamId)
+				.map(() => new streamsActions.OpenStreamSuccessAction(streamId))
+				.catch((err) => of(new streamsActions.OpenStreamErrorAction(streamId, err)));
+		});
+
+
+
+	@Effect()
+	closeStream$: Observable<Action> = this.actions$
+		.ofType(streamsActions.ActionTypes.CLOSE_STREAM)
+		.map((action: streamsActions.CloseStreamAction) => action.payload)
+		.switchMap((streamId: number) => {
+			return this.streamService.closeStream(streamId)
+				.map(() => new streamsActions.CloseStreamSuccessAction(streamId))
+				.catch((err) => of(new streamsActions.CloseStreamErrorAction(streamId, err)));
+		});
 }

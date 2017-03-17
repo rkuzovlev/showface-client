@@ -45,7 +45,6 @@ export class ApiService {
 		// console.log('ApiService get', urlJoin(this.apiUrl, url));
 
 		var newOptions = this.addToken(options);
-
 		return this.http.get(urlJoin(this.apiUrl, url), newOptions);
 	}
 
@@ -53,7 +52,6 @@ export class ApiService {
 		// console.log('ApiService post', urlJoin(this.apiUrl, url), body);
 		
 		var newOptions = this.addToken(options);
-		
 		return this.http.post(urlJoin(this.apiUrl, url), body, newOptions);
 	}
 
@@ -61,7 +59,6 @@ export class ApiService {
 		// console.log('ApiService put', urlJoin(this.apiUrl, url), body);
 		
 		var newOptions = this.addToken(options);
-		
 		return this.http.put(urlJoin(this.apiUrl, url), body, newOptions);
 	}
 }

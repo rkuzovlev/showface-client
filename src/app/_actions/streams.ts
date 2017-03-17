@@ -26,6 +26,12 @@ export class StreamSaveErrorPayload {
 	){}
 }
 
+export class StreamOpenCloseErrorPayload {
+	constructor(
+		public id: number,
+		public error: Error
+	){}
+}
 
 
 export class SaveStreamAction implements Action {
@@ -57,12 +63,21 @@ export class CloseStreamAction implements Action {
 
 export class CloseStreamSuccessAction implements Action {
 	type = ActionTypes.CLOSE_STREAM_SUCCESS;
+	constructor(public payload: number) { }
 }
 
 export class CloseStreamErrorAction implements Action {
+	payload: StreamOpenCloseErrorPayload
 	type = ActionTypes.CLOSE_STREAM_ERROR;
-	constructor(public payload: Error) { }
+	constructor(
+		public id: number,
+		public error: Error
+	) {
+		this.payload = new StreamOpenCloseErrorPayload(id, error);
+	}
 }
+
+
 
 
 export class OpenStreamAction implements Action {
@@ -72,12 +87,21 @@ export class OpenStreamAction implements Action {
 
 export class OpenStreamSuccessAction implements Action {
 	type = ActionTypes.OPEN_STREAM_SUCCESS;
+	constructor(public payload: number) { }
 }
 
 export class OpenStreamErrorAction implements Action {
+	payload: StreamOpenCloseErrorPayload
 	type = ActionTypes.OPEN_STREAM_ERROR;
-	constructor(public payload: Error) { }
+	constructor(
+		public id: number,
+		public error: Error
+	) {
+		this.payload = new StreamOpenCloseErrorPayload(id, error);
+	}
 }
+
+
 
 
 export class AddStreamAction implements Action {

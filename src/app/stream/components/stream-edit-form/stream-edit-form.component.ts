@@ -43,18 +43,15 @@ export class StreamEditFormComponent implements OnInit, OnChanges {
 
 		// TODO: fix this shit
 		var streamForSave = new Stream(
-				this.streamForm.value.title,
-				this.stream.image,
-				this.streamForm.value.description,
-				this.stream.closed,
-				this.stream.id,
-				this.stream.createdAt,
-				this.stream.updatedAt
-			);
-
-		console.log('streamForSave', streamForSave);
-		streamForSave.saveInProgress = true;
-
+			this.streamForm.value.title,
+			this.stream.image,
+			this.streamForm.value.description,
+			this.stream.closed,
+			this.stream.id,
+			this.stream.createdAt,
+			this.stream.updatedAt
+		);
+		
 		this.saveStream.emit(streamForSave);
 	}
 

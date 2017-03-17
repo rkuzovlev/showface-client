@@ -23,37 +23,121 @@ export const initialState: State = {
 
 export function reducer(state = initialState, action: streams.Actions): State {
 	switch (action.type) {
-		case streams.ActionTypes.SAVE_STREAM: {
-			let _stream = action.payload as Stream;
+		case streams.ActionTypes.CLOSE_STREAM: {
+			const streamId = action.payload as number;
 
-			// let st = state.entities[_stream.id];
-
-			if (!state.entities[_stream.id]){
+			if (!state.entities[streamId]){
+				console.warn(`reducer streams.ActionTypes.CLOSE_STREAM has not stream ${streamId} in stream list`);
 				return state;
 			}
 
-			_stream.saveInProgress = true;
-			_stream.saveError = null;
+			const st = Object.assign({}, state.entities[streamId], { closeInProgress: true, closeError: null });
+			const newEntities = Object.assign({}, state.entities, { [streamId]: st });
+			return Object.assign({}, state, {entities: newEntities});
+		}
 
-			let newEntities = Object.assign({}, state.entities, { [_stream.id]: _stream });
+		case streams.ActionTypes.CLOSE_STREAM_SUCCESS: {
+			const streamId = action.payload as number;
 
+			if (!state.entities[streamId]){
+				console.warn(`reducer streams.ActionTypes.CLOSE_STREAM_SUCCESS has not stream ${streamId} in stream list`);
+				return state;
+			}
+
+			const st = Object.assign({}, state.entities[streamId], { closed: true, closeInProgress: false, closeError: null });
+			const newEntities = Object.assign({}, state.entities, { [streamId]: st });
+			return Object.assign({}, state, {entities: newEntities});
+		}
+
+		case streams.ActionTypes.CLOSE_STREAM_ERROR: {
+			const openErrorPayload = action.payload as streams.StreamOpenCloseErrorPayload;
+			const streamId = openErrorPayload.id;
+			const _error = openErrorPayload.error;
+
+			if (!state.entities[streamId]){
+				console.warn(`reducer streams.ActionTypes.CLOSE_STREAM_ERROR has not stream ${streamId} in stream list`);
+				return state;
+			}
+
+			const st = Object.assign({}, state.entities[streamId], { closeInProgress: false, closeError: _error });
+			const newEntities = Object.assign({}, state.entities, { [streamId]: st });
+			return Object.assign({}, state, {entities: newEntities});
+		}
+
+
+
+
+
+		case streams.ActionTypes.OPEN_STREAM: {
+			const streamId = action.payload as number;
+
+			if (!state.entities[streamId]){
+				console.warn(`reducer streams.ActionTypes.OPEN_STREAM has not stream ${streamId} in stream list`);
+				return state;
+			}
+
+			const st = Object.assign({}, state.entities[streamId], { openInProgress: true, openError: null });
+			const newEntities = Object.assign({}, state.entities, { [streamId]: st });
+			return Object.assign({}, state, {entities: newEntities});
+		}
+
+		case streams.ActionTypes.OPEN_STREAM_SUCCESS: {
+			const streamId = action.payload as number;
+
+			if (!state.entities[streamId]){
+				console.warn(`reducer streams.ActionTypes.OPEN_STREAM_SUCCESS has not stream ${streamId} in stream list`);
+				return state;
+			}
+
+			const st = Object.assign({}, state.entities[streamId], { closed: false, openInProgress: false, openError: null });
+			const newEntities = Object.assign({}, state.entities, { [streamId]: st });
+			return Object.assign({}, state, {entities: newEntities});
+		}
+
+		case streams.ActionTypes.OPEN_STREAM_ERROR: {
+			const openErrorPayload = action.payload as streams.StreamOpenCloseErrorPayload;
+			const streamId = openErrorPayload.id;
+			const _error = openErrorPayload.error;
+
+			if (!state.entities[streamId]){
+				console.warn(`reducer streams.ActionTypes.OPEN_STREAM_ERROR has not stream ${streamId} in stream list`);
+				return state;
+			}
+
+			const st = Object.assign({}, state.entities[streamId], { openInProgress: false, openError: _error });
+			const newEntities = Object.assign({}, state.entities, { [streamId]: st });
+			return Object.assign({}, state, {entities: newEntities});
+		}
+
+
+
+		case streams.ActionTypes.SAVE_STREAM: {
+			const _stream = action.payload as Stream;
+
+			const streamId = _stream.id;
+
+			if (!state.entities[streamId]){
+				console.warn(`reducer streams.ActionTypes.SAVE_STREAM has not stream ${streamId} in stream list`);
+				return state;
+			}
+
+			const st = Object.assign({}, state.entities[streamId], { saveInProgress: true, saveError: null });
+			const newEntities = Object.assign({}, state.entities, { [streamId]: st });
 			return Object.assign({}, state, {entities: newEntities});
 		}
 
 		case streams.ActionTypes.SAVE_STREAM_SUCCESS: {
-			let _stream = action.payload as Stream;
+			const _stream = action.payload as Stream;
 
-			let st = state.entities[_stream.id];
+			const streamId = _stream.id;
 
-			if (!st){
+			if (!state.entities[streamId]){
+				console.warn(`reducer streams.ActionTypes.SAVE_STREAM_SUCCESS has not stream ${streamId} in stream list`);
 				return state;
 			}
 
-			st.saveInProgress = false;
-			st.saveError = null;
-
-			let newEntities = Object.assign({}, state.entities, { [_stream.id]: st });
-
+			const st = Object.assign({}, state.entities[streamId], { saveInProgress: false, saveError: null });
+			const newEntities = Object.assign({}, state.entities, { [streamId]: st });
 			return Object.assign({}, state, {entities: newEntities});
 		}
 
@@ -62,19 +146,20 @@ export function reducer(state = initialState, action: streams.Actions): State {
 			const _stream = saveErrorPayload.stream;
 			const _error = saveErrorPayload.error;
 
-			let st = state.entities[_stream.id];
+			const streamId = _stream.id;
 
-			if (!st){
+			if (!state.entities[streamId]){
+				console.warn(`reducer streams.ActionTypes.SAVE_STREAM_ERROR has not stream ${streamId} in stream list`);
 				return state;
 			}
 
-			st.saveInProgress = false;
-			st.saveError = _error;
-
-			let newEntities = Object.assign({}, state.entities, { [_stream.id]: st });
-
+			const st = Object.assign({}, state.entities[streamId], { saveInProgress: false, saveError: _error });
+			const newEntities = Object.assign({}, state.entities, { [streamId]: st });
 			return Object.assign({}, state, {entities: newEntities});
 		}
+
+
+
 
 
 		case streams.ActionTypes.LOAD_SUCCESS: {

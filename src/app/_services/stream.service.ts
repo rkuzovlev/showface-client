@@ -24,12 +24,12 @@ export class StreamService {
         return this.api.get(`/streams/${id}`).map((response: Response) => response.json() as Stream);
     }
 
-    getStreamModerators(streamId: number): Observable<User[]> {
-        return this.api.get(`/streams/${streamId}/moderators`).map((response: Response) => response.json() as User[]);
+    getStreamModerators(id: number): Observable<User[]> {
+        return this.api.get(`/streams/${id}/moderators`).map((response: Response) => response.json() as User[]);
     }
 
-    getStreamStreamers(streamId: number): Observable<User[]> {
-        return this.api.get(`/streams/${streamId}/streamers`).map((response: Response) => response.json() as User[]);
+    getStreamStreamers(id: number): Observable<User[]> {
+        return this.api.get(`/streams/${id}/streamers`).map((response: Response) => response.json() as User[]);
     }
 
     getBrowseStreams(): Observable<Stream[]> {
@@ -41,5 +41,14 @@ export class StreamService {
             return _throw(new Error('Stream has no id'));
         }
         return this.api.put(`/streams/${stream.id}`, stream).map((response: Response) => response.json() as Stream);
+    }
+
+
+    openStream(id: number): Observable<Response> {
+        return this.api.post(`/streams/${id}/open`, null);
+    }
+
+    closeStream(id: number): Observable<Response> {
+        return this.api.post(`/streams/${id}/close`, null);
     }
 }

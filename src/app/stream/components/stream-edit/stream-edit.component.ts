@@ -8,7 +8,7 @@ import { of } from 'rxjs/observable/of'
 import { Stream } from '../../../_models/stream';
 import { User } from '../../../_models/user';
 import * as reducers from '../../../_reducers'
-import { SaveStreamAction } from '../../../_actions/streams'
+import * as streamsActions from '../../../_actions/streams'
 
 
 @Component({
@@ -35,16 +35,14 @@ export class PageStreamEditComponent implements OnInit {
 	}
 
 	saveStream(stream: Stream){
-		this.store.dispatch(new SaveStreamAction(stream));
+		this.store.dispatch(new streamsActions.SaveStreamAction(stream));
 	}
 
 	closeStream(id: number){
-		console.log('closeStream', id);
-		// this.store.dispatch(new SaveStreamAction(stream));
+		this.store.dispatch(new streamsActions.CloseStreamAction(id));
 	}
 
 	openStream(id: number){
-		console.log('openStream', id);
-		// this.store.dispatch(new SaveStreamAction(stream));
+		this.store.dispatch(new streamsActions.OpenStreamAction(id));
 	}
 }
