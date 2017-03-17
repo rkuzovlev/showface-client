@@ -2,8 +2,6 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { ModalWindowService } from "../../_services/modal-window.service";
-import { Modal, ModalType } from "../../_models/modal";
 import { Stream } from "../../_models/stream";
 import * as reducers from '../../_reducers';
 
