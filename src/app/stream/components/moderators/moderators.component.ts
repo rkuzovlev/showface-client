@@ -12,5 +12,15 @@ export class ModeratorsComponent {
 	@Input() moderators: User[]
 	@Input() canEdit: boolean
 
+	editing: boolean = false 
+
 	constructor() { }
+
+	edit(){
+		this.editing = true;
+	}
+
+	editDone(){
+		this.editing = false;
+	}
 }

@@ -1,9 +1,15 @@
 <section *ngIf="canEdit || moderators.length" class="streamers-group">
 	<h2 class="title is-4">Moderators</h2>
 	
-	<user-card-small [user]="user" *ngFor="let user of moderators" class="media"></user-card-small>
+	<user-card-small [edit]="editing" [user]="user" *ngFor="let user of moderators" class="media"></user-card-small>
 
-	<div *ngIf="canEdit" class="media">
-		<a class="button is-primary">Edit moderators</a>
+	<div *ngIf="canEdit && !editing" class="media">
+		<a (click)="edit();" class="button is-primary">Edit moderators</a>
+	</div>
+
+	<find-user *ngIf="editing"></find-user>
+
+	<div *ngIf="editing" class="media">
+		<a (click)="editDone();" class="button is-primary">Done</a>
 	</div>
 </section>

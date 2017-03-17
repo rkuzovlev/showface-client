@@ -12,5 +12,15 @@ export class StreamersComponent {
 	@Input() streamers: User[]
 	@Input() canEdit: boolean
 
+	editing: boolean = false 
+
 	constructor() { }
+
+	edit(){
+		this.editing = true;
+	}
+
+	editDone(){
+		this.editing = false;
+	}
 }
