@@ -61,7 +61,10 @@ export const getUserState = (state: State) => state.user;
 export const getUserCurrentId = createSelector(getUserState, fromUser.getUserId);
 export const getUserLoginState = createSelector(getUserState, fromUser.getLogin);
 export const getUserCurrent = createSelector(getUserCurrentId, getUsersEntities, (userId, users) => users[userId]);
-export const getUserCurrentWithLoginState = createSelector(getUserCurrent, getUserLoginState, (user, login) => ({user, login}));
+export const getUserCurrentWithLoginState = createSelector(getUserCurrent, getUserLoginState, (user, login) => {
+	let us: fromUser.UserState = { user, login };
+	return us;
+});
 
 
 export const getStreamsState = (state: State) => state.streams;

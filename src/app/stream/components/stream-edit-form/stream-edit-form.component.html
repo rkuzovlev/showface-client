@@ -48,10 +48,10 @@
 
 			<div *ngIf="isModerator" class="control is-hidden-mobile is-grouped is-pulled-right">
 				<p *ngIf="!stream.closed" class="control">
-					<a (click)="closeStream.emit(stream.id);" [class.is-loading]="stream.closeInProgress" class="button is-danger">Close stream</a>
+					<button (click)="closeStream.emit(stream.id);" [disabled]="stream.closeInProgress" [class.is-loading]="stream.closeInProgress" type="button" class="button is-danger">Close stream</button>
 				</p>
 				<p *ngIf="stream.closed" class="control">
-					<a (click)="openStream.emit(stream.id);" [class.is-loading]="stream.openInProgress" class="button is-success">Open stream</a>
+					<button (click)="openStream.emit(stream.id);" [disabled]="stream.openInProgress" [class.is-loading]="stream.openInProgress" type="button" class="button is-success">Open stream</button>
 				</p>
 			</div>
 
@@ -80,10 +80,10 @@
 
 			<div *ngIf="isModerator" class="control is-grouped is-pulled-right">
 				<p *ngIf="isModerator && !stream.closed" class="control">
-					<a (click)="closeStream.emit(stream.id);" [class.is-loading]="stream.closeInProgress" class="button is-danger">Close stream</a>
+					<button (click)="closeStream.emit(stream.id);" [disabled]="stream.closeInProgress" [class.is-loading]="stream.closeInProgress" type="button" class="button is-danger">Close stream</button>
 				</p>
 				<p *ngIf="isModerator && stream.closed" class="control">
-					<a (click)="openStream.emit(stream.id);" [class.is-loading]="stream.openInProgress" class="button is-success">Open stream</a>
+					<button (click)="openStream.emit(stream.id);" [disabled]="stream.openInProgress" [class.is-loading]="stream.openInProgress" type="button" class="button is-success">Open stream</button>
 				</p>
 			</div>
 

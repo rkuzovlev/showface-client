@@ -14,6 +14,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 
 import { StreamService } from '../../_services/stream.service';
 import * as reducers from '../../_reducers';
+import * as userReducer from '../../_reducers/user';
 import * as streamsActions from '../../_actions/streams';
 import * as usersActions from '../../_actions/users';
 import * as streamActions from '../../_actions/stream';
@@ -26,15 +27,17 @@ import { User } from '../../_models/user';
 
 @Injectable()
 export class StreamGuard implements CanActivate {
-	currentUser$: Observable<User>
+	currentUser$: Observable<userReducer.UserState>
 
 	constructor(
 		private store: Store<reducers.State>,
 		private streamService: StreamService,
 		private router: Router,
 	) {
-		this.currentUser$ = this.store.select(reducers.getUserCurrent).filter(u => !!u).take(1);
-	}
+		this.currentUser$ = this.store.select(reducers.getUserCurrentWithLoginState)
+			.filter(state => state.login.state == userReducer.LoginState.Logined || state.login.state == userReducer.LoginState.Unauthorized)
+			.take(1);
+}
 
 	loadStream(id: number): Observable<Stream> {
 		return this.streamService
@@ -74,7 +77,7 @@ export class StreamGuard implements CanActivate {
 			this.loadStreamers(id),
 			this.loadModerators(id),
 			this.currentUser$,
-			(stream: Stream, streamers: User[], moderators: User[], currentUser: User): boolean => {
+			(stream: Stream, streamers: User[], moderators: User[], currentUser: userReducer.UserState): boolean => {
 				this.store.dispatch(new progressActions.CompleteAction());
 
 				if (!stream){
@@ -96,18 +99,21 @@ export class StreamGuard implements CanActivate {
 					this.store.dispatch(new streamActions.LoadModeratorsErrorAction());
 				}
 
- 				// console.log('currentUser', currentUser);
-
 				if (!forEditPage){
 					return true;
 				} 
 
-				if (currentUser.moderator){
+				if (currentUser.login.state == userReducer.LoginState.Unauthorized){
+					this.router.navigate(['/404']);
+					return false;
+				}
+
+				if (currentUser.user.moderator){
 					return true;
 				}
 
-				var isModerator = moderators.some((m) => m.id == currentUser.id);
-				var isStreamer = streamers.some((m) => m.id == currentUser.id);
+				var isModerator = moderators.some((m) => m.id == currentUser.user.id);
+				var isStreamer = streamers.some((m) => m.id == currentUser.user.id);
 				
 				if (isModerator || isStreamer){
 					return true;
@@ -120,7 +126,6 @@ export class StreamGuard implements CanActivate {
 	}
 
 	canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-		console.log('stream guard');
 		return this.checkStream(+route.params['id'], !!route.data['edit']);
 	}
 }

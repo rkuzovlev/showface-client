@@ -3,25 +3,32 @@ import { User } from '../_models/user';
 import * as user from '../_actions/user';
 
 export enum LoginState {
-	Unauthorized = 1,
+	Unknown = 1,
+	Unauthorized,
 	Login,
-	Logined,
-	Error
+	Logined
 }
+
+export interface LoginInterface {
+	state: LoginState;
+	error: Error;
+	token: string;
+}
+
+export interface UserState {
+	user: User;
+	login: LoginInterface;
+};
 
 export interface State {
 	userId: number;
-	login: {
-		state: LoginState;
-		error: Error;
-		token: string;
-	};
+	login: LoginInterface;
 };
 
 export const initialState: State = {
 	userId: 0,
 	login: {
-		state: LoginState.Unauthorized,
+		state: LoginState.Unknown,
 		error: null,
 		token: null
 	}
@@ -41,8 +48,8 @@ export function reducer(state = initialState, action: user.Actions): State {
 
 		case user.ActionTypes.LOAD_TOKEN_SUCCESS: {
 			const token = action.payload as string;
-
-			const login = Object.assign({}, state.login, { token: token });
+			const ls = token == null ? LoginState.Unauthorized : state.login.state;
+			const login = Object.assign({}, state.login, { state: ls, error: null, token: token });
 
 			return Object.assign({}, state, { login: login });
 		}
@@ -59,7 +66,7 @@ export function reducer(state = initialState, action: user.Actions): State {
 			const error = action.payload as Error;
 
 			const login = {
-				state: LoginState.Error,
+				state: LoginState.Unauthorized,
 				error: error,
 				token: null
 			};
