@@ -34,9 +34,7 @@ export class StreamGuard implements CanActivate {
 		private streamService: StreamService,
 		private router: Router,
 	) {
-		this.currentUser$ = this.store.select(reducers.getUserCurrentWithLoginState)
-			.filter(state => state.login.state == userReducer.LoginState.Logined || state.login.state == userReducer.LoginState.Unauthorized)
-			.take(1);
+		this.currentUser$ = this.store.select(reducers.getUserCurrentWithLoginState).take(1);
 }
 
 	loadStream(id: number): Observable<Stream> {
@@ -108,12 +106,17 @@ export class StreamGuard implements CanActivate {
 					return false;
 				}
 
+				if (currentUser.login.state != userReducer.LoginState.Logined){
+					this.router.navigate(['/404']);
+					return false;
+				}
+
 				if (currentUser.user.moderator){
 					return true;
 				}
 
-				var isModerator = moderators.some((m) => m.id == currentUser.user.id);
-				var isStreamer = streamers.some((m) => m.id == currentUser.user.id);
+				var isModerator = moderators.some((u) => u.id == currentUser.user.id);
+				var isStreamer = streamers.some((u) => u.id == currentUser.user.id);
 				
 				if (isModerator || isStreamer){
 					return true;

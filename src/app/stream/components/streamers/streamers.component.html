@@ -1,4 +1,4 @@
-<section *ngIf="canEdit || moderators.length" class="streamers-group">
+<section *ngIf="canEdit || streamers.length" class="streamers-group">
 	<h2 class="title is-4">Streamers</h2>
 	
 	<user-card-small [edit]="editing" [user]="user" *ngFor="let user of streamers" class="media"></user-card-small>

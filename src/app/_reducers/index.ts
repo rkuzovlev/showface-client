@@ -6,6 +6,9 @@ import { compose } from '@ngrx/core/compose';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { combineReducers } from '@ngrx/store';
 
+import { Stream } from '../_models/stream';
+import { User } from '../_models/user';
+
 import * as fromStream from './stream';
 import * as fromStreams from './streams';
 import * as fromUsers from './users';
@@ -80,7 +83,30 @@ export const getStreamStreamerIds = createSelector(getStreamState, fromStream.ge
 export const getStreamStreamers = createSelector(getUsersEntities, getStreamStreamerIds, (users, streamerIds) => streamerIds.map(id => users[id]));
 export const getStreamModeratorIds = createSelector(getStreamState, fromStream.getModeratorIds);
 export const getStreamModerators = createSelector(getUsersEntities, getStreamModeratorIds, (users, moderatorIds) => moderatorIds.map(id => users[id]));
+export const getStreamCanEdit = createSelector(
+	getUserCurrent, 
+	getUserLoginState,
+	getStreamModerators,
+	getStreamStreamers,
+	(user: User, loginState: fromUser.LoginInterface, moderators: User[], streamers: User[]) => {
+		if (loginState.state != fromUser.LoginState.Logined){
+			return false;
+		}
 
+		if (user.moderator){
+			return true;
+		}
+
+		var isModerator = moderators.some((u) => u.id == user.id);
+		var isStreamer = streamers.some((u) => u.id == user.id);
+		
+		if (isModerator || isStreamer){
+			return true;
+		}
+
+		return false;
+	}
+)
 
 export const getBrowseState = (state: State) => state.browse;
 export const getBrowseIds = createSelector(getBrowseState, fromBrowse.getIds);
