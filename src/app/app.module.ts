@@ -17,6 +17,7 @@ import { ErrorPagesModule } 	from './error-pages/error-pages.module';
 
 import { ModalWindowService } 	from "./_services/modal-window.service";
 import { AuthService } 			from "./_services/auth.service";
+import { WSService } 			from "./_services/ws.service";
 import { AuthGuard } 			from "./_services/auth-guard.service";
 import { AuthAdminGuard } 		from "./_services/auth-admin-guard.service";
 import { StorageService } 		from "./_services/storage.service";
@@ -63,6 +64,7 @@ import { reducer } from './_reducers'
 		StreamService,
 		StorageService,
 		ModalWindowService,
+		WSService,
 		AuthService,
 		AuthGuard,
 		AuthAdminGuard,

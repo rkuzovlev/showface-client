@@ -85,8 +85,6 @@ export class AuthService {
 		if (path == '/api/login/token'){
 			let token = reg.exec(search)[1];
 
-			console.log('token', token);
-			
 			if (token){
 				resolve(token);
 			} else {
