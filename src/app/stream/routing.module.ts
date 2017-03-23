@@ -5,12 +5,14 @@ import { PageStreamComponent } from './components/stream/stream.component';
 import { PageStreamEditComponent } from './components/stream-edit/stream-edit.component';
 
 import { StreamGuard } from './services/stream-guard.service';
+import { StreamDeactivate } from './services/stream-deactivate.service';
 
 const routes: Routes = [
 	{ 
 		path: 'stream/:id', 
 		component: PageStreamComponent,
-		canActivate: [ StreamGuard ]
+		canActivate: [ StreamGuard ],
+		canDeactivate: [ StreamDeactivate ]
 	},
 	{ 
 		path: 'stream/:id/edit', 

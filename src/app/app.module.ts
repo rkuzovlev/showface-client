@@ -75,6 +75,7 @@ import * as userActions from './_actions/user';
 export class AppModule {
 	constructor(
 		private store: Store<State>,
+		private ws: WSService,
 	){
 		this.store.dispatch(new userActions.LoadTokenAction());
 	}

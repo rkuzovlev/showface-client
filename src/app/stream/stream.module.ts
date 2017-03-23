@@ -19,6 +19,7 @@ import { RoutingModule } from './routing.module';
 import { SharedModule } from '../shared.module';
 
 import { StreamGuard } from './services/stream-guard.service';
+import { StreamDeactivate } from './services/stream-deactivate.service';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { StreamGuard } from './services/stream-guard.service';
 	],
 	providers: [
 		StreamGuard,
+		StreamDeactivate,
 	]
 })
 export class StreamModule {}
