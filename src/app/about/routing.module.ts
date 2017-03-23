@@ -5,13 +5,7 @@ import { PageAboutComponent } from './components/about/about.component';
 import { LoadTokenGuard } from '../_services/load-token-guard.service';
 
 const routes: Routes = [
-	{
-		path: '',
-		canActivate: [ LoadTokenGuard ],
-		children: [
-			{ path: 'about', component: PageAboutComponent },
-		]
-	}
+	{ path: 'about', component: PageAboutComponent }
 ];
 
 @NgModule({

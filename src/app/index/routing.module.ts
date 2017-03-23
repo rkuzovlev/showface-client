@@ -9,14 +9,8 @@ import { LoadTokenGuard } from '../_services/load-token-guard.service';
 const routes: Routes = [
 	{
 		path: '',
-		canActivate: [ LoadTokenGuard ],
-		children: [
-			{ 
-				path: '', 
-				component: PageIndexComponent,
-				canActivate: [ LoadBrowseStreamsGuard ]
-			},
-		]
+		component: PageIndexComponent,
+		canActivate: [ LoadBrowseStreamsGuard ]
 	}
 ];
 

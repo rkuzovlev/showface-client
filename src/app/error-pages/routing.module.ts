@@ -6,15 +6,9 @@ import { LoadTokenGuard } from '../_services/load-token-guard.service';
 
 const routes: Routes = [
 	{
-		path: '',
-		canActivate: [ LoadTokenGuard ],
-		children: [
-			{
-				path: '404', 
-				component: ErrorPageComponent,
-				data: { text: 'Not Found', status: 404 }
-			}
-		]
+		path: '404', 
+		component: ErrorPageComponent,
+		data: { text: 'Not Found', status: 404 }
 	}
 ];
 

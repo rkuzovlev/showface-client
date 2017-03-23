@@ -5,13 +5,7 @@ import { LoginComponent } from './../_components/login/login.component';
 import { LoadTokenGuard } from '../_services/load-token-guard.service';
 
 const routes: Routes = [
-	{
-		path: '',
-		canActivate: [ LoadTokenGuard ],
-		children: [
-			{ path: 'login', component: LoginComponent }
-		]
-	}
+	{ path: 'login', component: LoginComponent }
 ];
 
 @NgModule({

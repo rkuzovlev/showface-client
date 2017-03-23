@@ -26,15 +26,15 @@ export class SocketClusterTransport implements Transport {
 	}
 
 	public subscribe(name: string){
-		
+		this.socket.subscribe(name);
 	}
 
 	public unsubscribe(name: string){
-		
+		this.socket.unsubscribe(name);
 	}
 
 	public emit(event: string, data: any){
-		
+		this.socket.emit(event, data);
 	}
 
 	private _error(err){

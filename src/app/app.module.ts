@@ -1,5 +1,6 @@
 import { BrowserModule }	from '@angular/platform-browser';
 import { NgModule } 		from '@angular/core';
+import { Store } 			from '@ngrx/store';
 
 import { StoreModule } 		 	from '@ngrx/store'
 import { EffectsModule } 	 	from '@ngrx/effects'
@@ -22,7 +23,6 @@ import { WSService } 			from "./_services/ws.service";
 import { AuthAdminGuard } 		from "./_services/auth-admin-guard.service";
 import { StorageService } 		from "./_services/storage.service";
 import { StreamService } 		from './_services/stream.service'
-import { LoadTokenGuard } 		from './_services/load-token-guard.service'
 
 import { LoginComponent }			from './_components/login/login.component';
 import { AppComponent }				from './_components/app/app.component';
@@ -33,7 +33,8 @@ import { ModalComponent }			from './_components/modal/modal.component';
 import { UserEffects } from './_effects/user'
 import { StreamEffects } from './_effects/stream'
 
-import { reducer } from './_reducers'
+import { reducer, State } from './_reducers'
+import * as userActions from './_actions/user';
 
 
 @NgModule({
@@ -68,8 +69,13 @@ import { reducer } from './_reducers'
 		AuthService,
 		AuthGuard,
 		AuthAdminGuard,
-		LoadTokenGuard,
 	],
 	bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+	constructor(
+		private store: Store<State>,
+	){
+		this.store.dispatch(new userActions.LoadTokenAction());
+	}
+}

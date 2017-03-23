@@ -12,6 +12,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 
+import { WSService } from '../../_services/ws.service';
 import { StreamService } from '../../_services/stream.service';
 import * as reducers from '../../_reducers';
 import * as userReducer from '../../_reducers/user';
@@ -33,6 +34,7 @@ export class StreamGuard implements CanActivate {
 		private store: Store<reducers.State>,
 		private streamService: StreamService,
 		private router: Router,
+		private ws: WSService,
 	) {
 		this.currentUser$ = this.store.select(reducers.getUserCurrentWithLoginState).take(1);
 }
@@ -98,6 +100,7 @@ export class StreamGuard implements CanActivate {
 				}
 
 				if (!forEditPage){
+					this.ws.subscribeToStream(stream.id);
 					return true;
 				} 
 
@@ -112,6 +115,7 @@ export class StreamGuard implements CanActivate {
 				}
 
 				if (currentUser.user.moderator){
+					this.ws.subscribeToStream(stream.id);
 					return true;
 				}
 
@@ -119,6 +123,7 @@ export class StreamGuard implements CanActivate {
 				var isStreamer = streamers.some((u) => u.id == currentUser.user.id);
 				
 				if (isModerator || isStreamer){
+					this.ws.subscribeToStream(stream.id);
 					return true;
 				}
 
