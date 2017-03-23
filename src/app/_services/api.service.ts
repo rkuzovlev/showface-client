@@ -6,8 +6,6 @@ import * as urlJoin from 'url-join';
 
 import * as reducers from '../_reducers';
 
-import { WSService } from './ws.service';
-
 @Injectable()
 export class ApiService {
 	private apiUrl: string = '/api/';
@@ -16,7 +14,6 @@ export class ApiService {
 	constructor (
 		private store: Store<reducers.State>,
 		private http: Http,
-		private ws: WSService
 	){
 		this.store.select(reducers.getUserState).subscribe(userState => {
 			// console.log('new token', userState.login.token);

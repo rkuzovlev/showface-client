@@ -15,6 +15,7 @@ import * as fromUsers from './users';
 import * as fromUser from './user';
 import * as fromProgress from './progress';
 import * as fromBrowse from './browse';
+import * as fromWS from './ws';
 
 
 export interface State {
@@ -24,6 +25,7 @@ export interface State {
 	users: fromUsers.State;
 	user: fromUser.State;
 	progress: fromProgress.State;
+	ws: fromWS.State;
 	router: fromRouter.RouterState;
 }
 
@@ -35,6 +37,7 @@ const reducers = {
 	users: fromUsers.reducer,
 	user: fromUser.reducer,
 	progress: fromProgress.reducer,
+	ws: fromWS.reducer,
 	router: fromRouter.routerReducer,
 };
 
@@ -111,3 +114,6 @@ export const getStreamCanEdit = createSelector(
 export const getBrowseState = (state: State) => state.browse;
 export const getBrowseIds = createSelector(getBrowseState, fromBrowse.getIds);
 export const getBrowseStreams = createSelector(getBrowseIds, getStreamsEntities, (ids, streams) => ids.map(id => streams[id]));
+
+export const getWSState = (state: State) => state.ws;
+export const getWSStatus = createSelector(getWSState, fromWS.getStatus);

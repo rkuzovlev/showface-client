@@ -1,19 +1,31 @@
-import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Injectable }    from '@angular/core';
+
 import { Observable } from 'rxjs';
-import { Http, RequestOptionsArgs, Response, RequestOptions, Headers } from '@angular/http'
-import * as urlJoin from 'url-join';
 
-import * as sc from 'socketcluster-client';
-
-import * as reducers from '../_reducers';
+import { SocketClusterTransport } from './ws-transports/socketcluster.transport'
+import { Transport } from './ws-transports/transport.interface'
 
 @Injectable()
 export class WSService {
-	socket: any;
+    private transport: Transport
 
-	constructor (){
-		this.socket = sc.connect();
-		console.log('this.socket', this.socket);
-	}
+    constructor() {
+        this.transport = new SocketClusterTransport();
+    }
+
+    public subscribeToStream(id: number){
+        this.subscribe('stream.' + id);
+    }
+
+    public unsubscribeFromStream(id: number){
+        this.unsubscribe('stream.' + id);
+    }
+
+    private subscribe(name: string){
+        this.transport.subscribe(name);
+    }
+
+    private unsubscribe(name: string){
+        this.transport.unsubscribe(name);        
+    }
 }
