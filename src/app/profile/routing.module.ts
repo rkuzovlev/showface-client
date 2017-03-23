@@ -11,8 +11,6 @@ import { StreamComponent }		 	from './components/stream/stream.component';
 import { SubscriptionsComponent } 	from './components/subscriptions/subscriptions.component';
 import { FriendsComponent } 		from './components/friends/friends.component';
 import { AdminUsersComponent } 		from './components/admin-users/admin-users.component';
-import { LoadTokenGuard } from '../_services/load-token-guard.service';
-
 
 const routes: Routes = [
 	{

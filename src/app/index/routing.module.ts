@@ -3,8 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { PageIndexComponent } from './components/index/index.component';
 import { LoadBrowseStreamsGuard } from './services/browse-guard.service'
-import { LoadTokenGuard } from '../_services/load-token-guard.service';
-
 
 const routes: Routes = [
 	{
