@@ -6,6 +6,7 @@ import { _throw } from 'rxjs/observable/throw';
 import { Subject } from 'rxjs/Subject';
 import { Stream } from "../_models/stream";
 import { User } from "../_models/user";
+import { ChatMessage } from "../_models/chat-message";
 
 import { ApiService } from "./api.service";
 
@@ -50,5 +51,9 @@ export class StreamService {
 
     closeStream(id: number): Observable<Response> {
         return this.api.post(`/streams/${id}/close`, null);
+    }
+
+    chatNewMessage(streamId: number, message: string){
+        return this.api.post(`/streams/${streamId}/chat/message`, {message}).map((response: Response) => response.json() as ChatMessage);
     }
 }

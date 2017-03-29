@@ -17,7 +17,9 @@ export class StreamDeactivate implements CanDeactivate<PageStreamComponent> {
 	) {}
 
 	canDeactivate(pscomp: PageStreamComponent, route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        this.ws.unsubscribeFromStream(+route.params['id']);
+		let streamId = +route.params['id'];
+        this.ws.unsubscribeFromStream(streamId);
+        this.ws.unsubscribeFromStreamChat(streamId);
 		return of(true);
 	}
 }

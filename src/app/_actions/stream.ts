@@ -20,9 +20,9 @@ export const ActionTypes = {
 
 	CHAT_ADD_MESSAGE: 		type('[Chat] Add message'),
 	CHAT_REMOVE_MESSAGE: 	type('[Chat] Remove message'),
-	CHAT_SEND_MESSAGE: 		type('[Chat] Send message'),
-	CHAT_SEND_MESSAGE_ERROR:	type('[Chat] Send message error'),
-	CHAT_SEND_MESSAGE_COMPLETE:	type('[Chat] Send message complete'),
+	CHAT_NEW_MESSAGE: 		type('[Chat] New message'),
+	CHAT_NEW_MESSAGE_ERROR:	type('[Chat] New message error'),
+	CHAT_NEW_MESSAGE_COMPLETE:	type('[Chat] New message complete'),
 };
 
 export class LoadStreamAction implements Action {
@@ -86,18 +86,18 @@ export class ChatRemoveMessageAction implements Action {
 	constructor(public payload: number){}
 }
 
-export class ChatSendMessageAction implements Action {
-	type = ActionTypes.CHAT_SEND_MESSAGE;
+export class ChatNewMessageAction implements Action {
+	type = ActionTypes.CHAT_NEW_MESSAGE;
 	constructor(public payload: string){}
 }
 
-export class ChatSendMessageErrorAction implements Action {
-	type = ActionTypes.CHAT_SEND_MESSAGE_ERROR;
+export class ChatNewMessageErrorAction implements Action {
+	type = ActionTypes.CHAT_NEW_MESSAGE_ERROR;
 	constructor(public payload: Error){}
 }
 
-export class ChatSendMessageCompleteAction implements Action {
-	type = ActionTypes.CHAT_SEND_MESSAGE_COMPLETE;
+export class ChatNewMessageCompleteAction implements Action {
+	type = ActionTypes.CHAT_NEW_MESSAGE_COMPLETE;
 	constructor(){}
 }
 
@@ -113,7 +113,7 @@ export type Actions
 	| LoadModeratorsErrorAction
 	| ChatAddMessageAction
     | ChatRemoveMessageAction
-	| ChatSendMessageAction
-	| ChatSendMessageErrorAction
-	| ChatSendMessageCompleteAction
+	| ChatNewMessageAction
+	| ChatNewMessageErrorAction
+	| ChatNewMessageCompleteAction
 	;

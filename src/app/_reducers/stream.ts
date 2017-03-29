@@ -7,7 +7,7 @@ import { ChatMessage } from '../_models/chat-message';
 
 import * as stream from '../_actions/stream';
 
-import { State as ChatState, initialState as ChatInitialState, reducer as ChatReducer } from './chat'
+import * as fromChat from './chat'
 
 
 export interface State {
@@ -15,7 +15,7 @@ export interface State {
 	streamerIds: number[];
 	moderatorIds: number[];
 	comments: Comment[];
-	chat: ChatState;
+	chat: fromChat.State;
 };
 
 export const initialState: State = {
@@ -23,7 +23,7 @@ export const initialState: State = {
 	streamerIds: [],
 	moderatorIds: [],
 	comments: [],
-	chat: ChatInitialState,
+	chat: fromChat.initialState,
 };
 
 function addIdToIds(oldIds, newid) {
@@ -93,7 +93,7 @@ export function reducer(state = initialState, action: stream.Actions): State {
 
 		case stream.ActionTypes.CHAT_ADD_MESSAGE:
 		case stream.ActionTypes.CHAT_REMOVE_MESSAGE: {
-			return Object.assign({}, state, {chat: ChatReducer(state.chat, action)});
+			return Object.assign({}, state, {chat: fromChat.reducer(state.chat, action)});
 		}
 
 		default: {
@@ -106,3 +106,5 @@ export function reducer(state = initialState, action: stream.Actions): State {
 export const getId = (state: State) => state.id;
 export const getModeratorIds = (state: State) => state.moderatorIds;
 export const getStreamerIds = (state: State) => state.streamerIds;
+export const getChatMessages = (state: State) => state.chat.messages;
+export const getChatIds = (state: State) => state.chat.ids;

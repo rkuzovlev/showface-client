@@ -86,6 +86,12 @@ export const getStreamStreamerIds = createSelector(getStreamState, fromStream.ge
 export const getStreamStreamers = createSelector(getUsersEntities, getStreamStreamerIds, (users, streamerIds) => streamerIds.map(id => users[id]));
 export const getStreamModeratorIds = createSelector(getStreamState, fromStream.getModeratorIds);
 export const getStreamModerators = createSelector(getUsersEntities, getStreamModeratorIds, (users, moderatorIds) => moderatorIds.map(id => users[id]));
+const getStreamChatIds = createSelector(getStreamState, fromStream.getChatIds);
+const getStreamChatMsg = createSelector(getStreamState, fromStream.getChatMessages);
+export const getStreamChatMessages = createSelector(getStreamChatIds, getStreamChatMsg, (ids, messages) => {
+	return ids.map((id) => messages[id]);
+});
+
 export const getStreamCanEdit = createSelector(
 	getUserCurrent, 
 	getUserLoginState,

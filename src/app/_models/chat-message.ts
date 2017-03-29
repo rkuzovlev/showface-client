@@ -1,7 +1,7 @@
 export interface ChatUser {
 	id: number;
 	name: string;
-	isModerator: boolean;
+	moderator: boolean;
 }
 
 export class ChatMessage {

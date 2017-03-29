@@ -13,6 +13,7 @@ import { Observable } from 'rxjs/Observable';
 import { empty } from 'rxjs/observable/empty';
 import { of } from 'rxjs/observable/of';
 import { forkJoin } from 'rxjs/observable/forkJoin';
+import { Store } from '@ngrx/store';
 
 import { StreamService } from '../_services/stream.service';
 import * as streamsActions from '../_actions/streams';
@@ -21,14 +22,37 @@ import * as userActions from '../_actions/user';
 import * as usersActions from '../_actions/users';
 import { User } from '../_models/user';
 import { Stream } from '../_models/stream';
+import { ChatMessage } from '../_models/chat-message';
+import * as reducers from '../_reducers';
 
 
 @Injectable()
 export class StreamEffects {
+	currentStream: number = 0;
+
 	constructor(
 		private actions$: Actions, 
 		private streamService: StreamService,
-	){}
+		private store: Store<reducers.State>,
+	){
+		this.store.select(reducers.getStreamId).subscribe((id) => {
+			this.currentStream = id;
+		});
+	}
+
+	@Effect()
+	chatNewMessage$: Observable<Action> = this.actions$
+		.ofType(streamActions.ActionTypes.CHAT_NEW_MESSAGE)
+		.map((action: streamActions.ChatNewMessageAction) => action.payload)
+		.switchMap((message: string) => {
+			if (!this.currentStream){
+				return empty();
+			}
+			
+			return this.streamService.chatNewMessage(this.currentStream, message)
+				.switchMap(() => empty())
+				.catch((err) => of(new streamActions.ChatNewMessageErrorAction(err)));
+		});
 
 	@Effect()
 	saveStream$: Observable<Action> = this.actions$

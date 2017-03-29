@@ -1,1 +1,1 @@
-<textarea class="!textarea" placeholder="Add a comment..."></textarea>
+<textarea class="!textarea" [(ngModel)]="message" (keydown)="_newMessage($event)" placeholder="Add a comment..."></textarea>

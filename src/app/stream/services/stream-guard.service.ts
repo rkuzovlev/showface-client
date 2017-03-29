@@ -101,6 +101,7 @@ export class StreamGuard implements CanActivate {
 
 				if (!forEditPage){
 					this.ws.subscribeToStream(stream.id);
+					this.ws.subscribeToStreamChat(stream.id);
 					return true;
 				} 
 

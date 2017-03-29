@@ -10,8 +10,10 @@ import { Statuses } from './ws-transports/statuses';
 import * as reducers from '../_reducers';
 import * as wsActions from '../_actions/ws';
 import * as streamsActions from '../_actions/streams';
+import * as streamActions from '../_actions/stream';
 
 import { Stream } from '../_models/stream';
+import { ChatMessage } from '../_models/chat-message';
 
 @Injectable()
 export class WSService {
@@ -53,6 +55,13 @@ export class WSService {
                 }
 
                 case MessageTypes.StreamChat: {
+                    if (msg.data.event == 'add'){
+                        this.store.dispatch(new streamActions.ChatAddMessageAction(msg.data.data as ChatMessage));
+                    }
+
+                    if (msg.data.event == 'remove'){
+                        this.store.dispatch(new streamActions.ChatRemoveMessageAction(msg.data.data as number));
+                    }
 
                     break;
                 }
