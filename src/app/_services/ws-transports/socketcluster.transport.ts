@@ -2,15 +2,15 @@ import { Observable, Subject } from 'rxjs';
 
 import * as sc from 'socketcluster-client';
 
-import { Message } from './message';
+import { Messages, MessageTypes, CreateWsMsg, StreamChatMessage, StreamMessage } from './message';
 import { Statuses } from './statuses';
 import { Transport } from './transport.interface';
 
 export class SocketClusterTransport implements Transport {
 	private socket: any;
-	public status$: Subject<Statuses> = Subject.create()
-	public error$: Subject<Error> = Subject.create()
-	public message$: Subject<Message> = Subject.create()
+	public status$: Subject<Statuses> = new Subject();
+	public error$: Subject<Error> = new Subject();
+	public message$: Subject<Messages> = new Subject();
 
 	constructor (){
 		this.socket = sc.connect();
@@ -22,7 +22,6 @@ export class SocketClusterTransport implements Transport {
 		this.socket.on('message', this._message.bind(this));
 
 		this.status$.next(Statuses.Disconnected);
-		console.log('this.socket', this.socket);
 	}
 
 	public subscribe(name: string){
@@ -57,22 +56,35 @@ export class SocketClusterTransport implements Transport {
 		console.log('socketcluster _connecting', arguments);
 	}
 
+	/**
+	 * 	When message published into channel
+	 * 
+	 * 	{
+	 * 		"event": "#publish",
+	 * 		"data": {
+	 * 			"channel": "stream.2",
+	 * 			"data": {
+	 * 				"action": "new_message",
+	 * 				"message": { "id": 13, "nickname": "user365", "message": "test msg" }
+	 * 			}
+	 * 		}
+	 * 	}
+	 */
 	private _message(message: string){
 		try {
 			let parsed = JSON.parse(message);
-			if (parsed.event){
-				let data = null;
-				if (typeof parsed.data == "object"){
-					data = parsed.data;
-				}
-				let wsmsg = new Message(parsed.event, data);
+			if (parsed.event && parsed.event == '#publish'){
+				let wsmsg: Messages = CreateWsMsg(parsed.data.channel, parsed.data.data);
 				this.message$.next(wsmsg);
 			}
 		} catch(err) {
 			if (message != "#1"){ // skip ping message
-				console.error("Can't parse message '" + message + "' from WS");
+				console.error("Can't parse message '" + message + "' from WS", err);
 			}
 		}
-		console.log('socketcluster _message', arguments);
+
+		if (message != "#1"){ // skip ping message
+			console.log('socketcluster _message', arguments);
+		}
 	}
 }
