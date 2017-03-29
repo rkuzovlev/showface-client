@@ -3,11 +3,11 @@ import { createSelector } from 'reselect';
 import { Stream } from '../_models/stream';
 import { User } from '../_models/user';
 import { Comment } from '../_models/comment';
-import { ChatMessage } from '../_models/chatMessage';
+import { ChatMessage } from '../_models/chat-message';
 
 import * as stream from '../_actions/stream';
 
-import { State as ChatState, initialState as ChatInitialState } from './chat'
+import { State as ChatState, initialState as ChatInitialState, reducer as ChatReducer } from './chat'
 
 
 export interface State {
@@ -89,6 +89,11 @@ export function reducer(state = initialState, action: stream.Actions): State {
 			const user = action.payload as User;
 			let ids = removeIdFromIds(state.moderatorIds, user.id);
 			return Object.assign({}, state, {moderatorIds: ids});
+		}
+
+		case stream.ActionTypes.CHAT_ADD_MESSAGE:
+		case stream.ActionTypes.CHAT_REMOVE_MESSAGE: {
+			return Object.assign({}, state, {chat: ChatReducer(state.chat, action)});
 		}
 
 		default: {

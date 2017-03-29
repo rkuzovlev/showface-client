@@ -2,17 +2,27 @@ import { Action } from '@ngrx/store';
 import { Stream } from '../_models/stream';
 import { User } from '../_models/user';
 import { type } from '../utils';
+import { ChatMessage } from '../_models/chat-message';
 
 export const ActionTypes = {	
 	LOAD_STREAM: 			type('[Stream] Load stream'),
+	
 	LOAD_STREAMERS: 		type('[Stream] Load streamers'),
+	LOAD_STREAMERS_ERROR: 	type('[Stream] Load streamers error'),
+
 	ADD_STREAMER: 			type('[Stream] Add streamer'),
 	REMOVE_STREAMER: 		type('[Stream] Remove streamer'),
-	LOAD_STREAMERS_ERROR: 	type('[Stream] Load streamers error'),
+	
 	LOAD_MODERATORS: 		type('[Stream] Load moderators'),
+	LOAD_MODERATORS_ERROR: 	type('[Stream] Load moderators error'),
 	ADD_MODERATOR: 			type('[Stream] Add moderator'),
 	REMOVE_MODERATOR: 		type('[Stream] Remove moderator'),
-	LOAD_MODERATORS_ERROR: 	type('[Stream] Load moderators error'),
+
+	CHAT_ADD_MESSAGE: 		type('[Chat] Add message'),
+	CHAT_REMOVE_MESSAGE: 	type('[Chat] Remove message'),
+	CHAT_SEND_MESSAGE: 		type('[Chat] Send message'),
+	CHAT_SEND_MESSAGE_ERROR:	type('[Chat] Send message error'),
+	CHAT_SEND_MESSAGE_COMPLETE:	type('[Chat] Send message complete'),
 };
 
 export class LoadStreamAction implements Action {
@@ -64,6 +74,33 @@ export class LoadModeratorsErrorAction implements Action {
 }
 
 
+
+// chat
+export class ChatAddMessageAction implements Action {
+	type = ActionTypes.CHAT_ADD_MESSAGE;
+	constructor(public payload: ChatMessage){}
+}
+
+export class ChatRemoveMessageAction implements Action {
+	type = ActionTypes.CHAT_REMOVE_MESSAGE;
+	constructor(public payload: number){}
+}
+
+export class ChatSendMessageAction implements Action {
+	type = ActionTypes.CHAT_SEND_MESSAGE;
+	constructor(public payload: string){}
+}
+
+export class ChatSendMessageErrorAction implements Action {
+	type = ActionTypes.CHAT_SEND_MESSAGE_ERROR;
+	constructor(public payload: Error){}
+}
+
+export class ChatSendMessageCompleteAction implements Action {
+	type = ActionTypes.CHAT_SEND_MESSAGE_COMPLETE;
+	constructor(){}
+}
+
 export type Actions
 	= LoadStreamAction
 	| LoadStreamersAction
@@ -74,4 +111,9 @@ export type Actions
 	| AddModeratorAction
 	| RemoveStreamerAction
 	| LoadModeratorsErrorAction
+	| ChatAddMessageAction
+    | ChatRemoveMessageAction
+	| ChatSendMessageAction
+	| ChatSendMessageErrorAction
+	| ChatSendMessageCompleteAction
 	;
