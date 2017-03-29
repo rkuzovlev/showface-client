@@ -26,14 +26,17 @@ export class WSService {
             switch(status){
                 case Statuses.Disconnected: {
                     this.store.dispatch(new wsActions.ChangeStatusAction(wsActions.Statuses.Disconnected));
+                    break;
                 }
 
                 case Statuses.Connecting: {
                     this.store.dispatch(new wsActions.ChangeStatusAction(wsActions.Statuses.Connecting));
+                    break;
                 }
 
                 case Statuses.Connected: {
                     this.store.dispatch(new wsActions.ChangeStatusAction(wsActions.Statuses.Connected));
+                    break;
                 }
             }
         });
@@ -58,26 +61,26 @@ export class WSService {
     }
 
     public subscribeToStream(id: number){
-        this.subscribe('stream.' + id);
+        this._subscribe('stream.' + id);
     }
 
     public unsubscribeFromStream(id: number){
-        this.unsubscribe('stream.' + id);
+        this._unsubscribe('stream.' + id);
     }
 
     public subscribeToStreamChat(id: number){
-        this.subscribe('stream.' + id + '.chat');
+        this._subscribe('stream.' + id + '.chat');
     }
 
     public unsubscribeFromStreamChat(id: number){
-        this.unsubscribe('stream.' + id + '.chat');
+        this._unsubscribe('stream.' + id + '.chat');
     }
 
-    private subscribe(name: string){
+    private _subscribe(name: string){
         this.transport.subscribe(name);
     }
 
-    private unsubscribe(name: string){
+    private _unsubscribe(name: string){
         this.transport.unsubscribe(name);
     }
 }
